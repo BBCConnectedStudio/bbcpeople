@@ -1,0 +1,4 @@
+<li>
+	<%= content_tag( 'h4', link_to( ( h article.headline ), ( h  article.uri ) ) ) %>
+	<%= content_tag( 'p', "Published: #{h article.published_at.strftime( '%A, %d %B %Y @ %H:%M' )}", :class => 'date' ) %>
+</li>
