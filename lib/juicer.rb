@@ -1,10 +1,12 @@
 class Juicer
+  include HTTParty
+  http_proxy 'www-cache.reith.bbc.co.uk', 80
 
   class << self
 
     # Takes a name and returns a person object for the person with that name
     def person_by_name(name)
-      response = HTTParty.get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
       json_data = JSON.parse(response.body)
 
       Person.new(name:        json_data['label'],
@@ -15,7 +17,7 @@ class Juicer
 
     # Takes a name and returns an organisation object for the organisation with that name
     def organisation_by_name(name)
-      response = HTTParty.get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
       json_data = JSON.parse(response.body)
 
       Organisation.new(name:        json_data['label'],
@@ -26,7 +28,7 @@ class Juicer
 
     # Takes an entity object and returns an array of news articles relating to that entity
     def articles_related_to(entity)
-      response = HTTParty.get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=#{entity.dbpedia_uri}&limit=20"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=#{entity.dbpedia_uri}&limit=20"))
       json_data = JSON.parse(response.body)
 
       return [] unless json_data['articles']
@@ -42,7 +44,7 @@ class Juicer
     end
 
     def people_related_to(entity)
-      response = HTTParty.get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Person&limit=9"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Person&limit=9"))
       json_data = JSON.parse(response.body)
 
       json_data['co-occurrences'].map do |json|
@@ -61,7 +63,7 @@ class Juicer
     end
 
     def organisations_related_to(entity)
-      response = HTTParty.get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Organisation&limit=9"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Organisation&limit=9"))
       json_data = JSON.parse(response.body)
 
       json_data['co-occurrences'].map do |json|
