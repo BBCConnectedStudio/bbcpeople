@@ -2,10 +2,10 @@
 
 <div class="row">
   <div class="span3">
-    <%= image_tag(@person.image, :alt => @person.name) %>
+    <%= image_tag(@person.image, :alt => @person.name, :class => 'juicer-data data') %>
 
     <br><br>
-    <div id="tag-container" class="well well-small" style="width: 180px;">
+    <div id="tag-container" class="well well-small juicer-data data" style="width: 180px;">
       <canvas width="180" height="200" id="tag-cloud">
         <% @organisations.each do |o| %>
           <%= link_to o.name, o.dbpedia_uri %>
@@ -14,8 +14,8 @@
     </div>
   </div>
   <div class="span9">
-    <h1><%=h @person.name %></h1>
-    <p><%=h @person.description %></p>
+    <h1 class="juicer-data data"><%=h @person.name %></h1>
+    <p class="juicer-data data"><%=h @person.description %></p>
 
     <ul class="nav nav-tabs">
       <li class="active"><a href="#read" data-toggle="tab">Read</a></li>
@@ -23,21 +23,21 @@
       <li><a href="#watch" data-toggle="tab">Watch</a></li>
     </ul>
     <div class="tab-content">
-      <div class="tab-pane active" id="read">
+      <div class="tab-pane active juicer-data data" id="read">
         <% if @articles.nil? %>
           No relevant reading material.
         <% else %>
           <%= render :partial => 'shared/article', :collection => @articles.take(5) %>
         <% end %>
       </div>
-      <div class="tab-pane" id="listen">
+      <div class="tab-pane programme-data data" id="listen">
         <% if @radio_programmes.nil? %>
           No radio programmes available.
         <% else %>
           <%= render :partial => 'shared/programme', :collection => @radio_programmes.take(5) %>
         <% end %>
       </div>
-      <div class="tab-pane" id="watch">
+      <div class="tab-pane programme-data data" id="watch">
         <% if @tv_programmes.nil? %>
           No TV programmes available.
         <% else %>
@@ -52,7 +52,7 @@
 <hr />
 <h2>Related People</h2>
 
-<div class="row-fluid">
+<div class="row-fluid juicer-data data">
   <ul class="thumbnails">
     <% @people.take(4).each do |person| %>
       <li class="span3">

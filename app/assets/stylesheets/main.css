@@ -3,3 +3,14 @@ body {
 }
 
 .thumbnails .thumbnail img { width: 200px; height: 200px;}
+
+.juicer-data.show, .juicer-key { background-color: #E09952; }
+.pips-data.show, .pips-key { background-color: #DBDB57; }
+.programme-data.show, .programme-key { background-color: #CB4D4D; }
+
+.source-legend { margin-left: 10px;}
+
+.juicer-data.hide { display: none; }
+.pips-data.hide { opacity: 0.5; }
+
+.nav label.radio { color: #ffffff; }
