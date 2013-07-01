@@ -9,7 +9,7 @@ class Programmes
       response = get("http://www.bbc.co.uk/programmes/topics/#{person.name.gsub(' ', '_')}.json")
       json_data = JSON.parse(response.body)
 
-      json_data['category_page']['available_programmes'].take(30).map do |json|
+      p = json_data['category_page']['available_programmes'].take(30).map do |json|
         programme = Programme.new(
           pid:    json['pid'],
           title:  json['display_titles']['title'],
@@ -20,8 +20,9 @@ class Programmes
         return nil unless json['media_type'] == 'audio'
         programme
 
-      end.compact!
-
+      end
+      p.compact!
+      p
     end
 
     # Takes a person and returns a list of tv programmes relating to that person
@@ -29,7 +30,7 @@ class Programmes
       response = get("http://www.bbc.co.uk/programmes/topics/#{person.name.gsub(' ', '_')}.json")
       json_data = JSON.parse(response.body)
 
-      json_data['category_page']['available_programmes'].take(30).map do |json|
+      p = json_data['category_page']['available_programmes'].take(30).map do |json|
         programme = Programme.new(
           pid:    json['pid'],
           title:  json['display_titles']['title'],
@@ -40,8 +41,9 @@ class Programmes
         return nil if json['media_type'] == 'audio'
         programme
 
-      end.compact!
-
+      end
+      p.compact!
+      p
     end
   end
 
