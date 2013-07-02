@@ -1,6 +1,6 @@
 class Programmes
   include HTTParty
-  http_proxy 'www-cache.reith.bbc.co.uk', 80
+  http_proxy 'www-cache.reith.bbc.co.uk', 80 if Rails.env.development?
 
   class << self
 
