@@ -11,6 +11,8 @@ $(document).ready(function() {
     $('#tag-container').hide();
   }
 
+  // select normal radio button by default
+  $('input[value=normal]').attr('checked', 'checked');
 
   $('.source-legend').hide();
   $('input[name=mode]').on('change', function() {

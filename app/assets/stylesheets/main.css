@@ -5,12 +5,15 @@ body {
 .thumbnails .thumbnail img { width: 200px; height: 200px;}
 
 .juicer-data.show, .juicer-key { background-color: #E09952; }
-.pips-data.show, .pips-key { background-color: #DBDB57; }
-.programme-data.show, .programme-key { background-color: #CB4D4D; }
+.pips-tags-data.show, .pips-key { background-color: #DBDB57; }
+.pips-contributions-data.show, .programme-key { background-color: #CB4D4D; }
 
-.source-legend { margin-left: 10px;}
+.source-legend { float: left; margin: 5px 0 0 10px; padding: 5px; border-radius: 2px;}
+.data { border-radius: 3px; padding: 5px; }
 
 .juicer-data.hide { display: none; }
 .pips-data.hide { opacity: 0.5; }
 
 .nav label.radio { color: #ffffff; }
+
+.footer { background-color: #1b1b1b; color: #fff; height: 50px; padding-top: 10px; }
