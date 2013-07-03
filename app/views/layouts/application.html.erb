@@ -16,26 +16,9 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="brand" href="#">BBC People</a>
-        <div class="nav-collapse collapse">
-          <ul class="nav">
-            <li>
-            <label class="radio inline" for="normal-mode">
-              <input type="radio" class="modes" name="mode" id="normal-mode" value="normal" /> Normal
-            </label>
-            <label class="radio inline" for="source-mode">
-              <input type="radio" name="mode" class="modes" id="source-mode" value="source" /> View Source
-            </label>
-            <label class="radio inline" for="hidden-mode">
-              <input type="radio" name="mode" class="modes" id="hidden-mode" value="hidden" /> Hide Unmoderated
-            </label>
-            </li>
-            <li><span class="juicer-key source-legend">Juicer</span></li>
-            <li><span class="pips-key source-legend">PIPs Contributions</span></li>
-            <li><span class="programme-key source-legend">PIPs Tags</span></li>
-          </ul>
-        </div>
-      </div>
+      <a class="brand" href="/">BBC People</a>
+      <%= yield :extra_nav %>
+     </div>
     </div>
   </div>
 
@@ -47,9 +30,9 @@
 
   <div class="footer">
     <div class="container">
-     A <%= link_to 'Connected Studio', 'http://twitter.com/bbc_connected' %> prototype using 
-    <%= link_to 'BBC Programmes', 'http://twitter.com/bbc' %> and 
-    <%= link_to 'BBC News Labs', 'http://twitter.com/bbc_news_labs' %>.
+     A <%= link_to '@BBC_Connected', 'http://twitter.com/bbc_connected' %> prototype using 
+    <%= link_to '@Programmes', 'http://twitter.com/programmes' %> and 
+    <%= link_to '@BBC_News_Labs', 'http://twitter.com/bbc_news_labs' %>.
     <div class="pull-right">
       <%= link_to 'Chrome Extension', chrome_path %>
     </div>

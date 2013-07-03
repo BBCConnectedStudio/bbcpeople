@@ -1,5 +1,29 @@
 <% title(@person.name) %>
 
+<% content_for :extra_nav do %>
+
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li>
+            <label class="radio inline" for="normal-mode">
+              <input type="radio" class="modes" name="mode" id="normal-mode" value="normal" /> Normal
+              </label>
+            <label class="radio inline" for="source-mode">
+              <input type="radio" name="mode" class="modes" id="source-mode" value="source" /> View Source
+            </label>
+            <label class="radio inline" for="hidden-mode">
+              <input type="radio" name="mode" class="modes" id="hidden-mode" value="hidden" /> Hide Unmoderated
+              </label>
+            </li>
+            <li><span class="juicer-key source-legend">Juicer</span></li>
+            <li><span class="pips-key source-legend">PIPs Contributions</span></li>
+            <li><span class="programme-key source-legend">PIPs Tags</span></li>
+            </ul>
+          </div>
+        </div>
+
+<% end %>
+
 <div class="row">
   <div class="span3">
     <%= image_tag(@person.image, :alt => @person.name, :class => 'juicer-data data') %>
