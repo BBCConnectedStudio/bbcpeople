@@ -52,6 +52,8 @@ People::Application.routes.draw do
 
   get 'people'        => 'people#index'
   get '/people/:name' => 'people#show', :as => 'show_person'
+  get '/chrome'       => 'pages#chrome', :as => 'chrome'
+  get '/chrome-extension' => 'pages#chrome_extension', :as => 'chrome_extension'
 
   # See how all your routes lay out with "rake routes"
 
