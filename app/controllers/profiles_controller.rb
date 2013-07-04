@@ -4,9 +4,8 @@ class ProfilesController < ApplicationController
   end
 
   def show
-    @person   = ::Juicer.person_by_name(params[:name])
-
-    render :template => 'person/none' unless @person
+    name = CGI::unescape(params[:name])
+    @person = ::Juicer.person_by_name(name) || not_found
 
     @articles = ::Juicer.articles_related_to(@person)
     @people   = ::Juicer.people_related_to(@person)
@@ -21,7 +20,8 @@ class ProfilesController < ApplicationController
   end
 
   def read_rss
-    @person   = ::Juicer.person_by_name(params[:name])
+    name = CGI::unescape(params[:name])
+    @person   = ::Juicer.person_by_name(name) || not_found
     @articles = ::Juicer.articles_related_to(@person)
 
     respond_to do |format|

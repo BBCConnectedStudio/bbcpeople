@@ -1,3 +1,5 @@
+require 'cgi'
+
 class Juicer
   include HTTParty
   #http_proxy 'www-cache.reith.bbc.co.uk', 80 if Rails.env.development?
@@ -6,7 +8,11 @@ class Juicer
 
     # Takes a name and returns a person object for the person with that name
     def person_by_name(name)
+      name = CGI::escape(name)
+
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
+
+      return nil if response.body.blank?
       json_data = JSON.parse(response.body)
 
       Person.new(name:        json_data['label'],
@@ -17,6 +23,8 @@ class Juicer
 
     # Takes a name and returns an organisation object for the organisation with that name
     def organisation_by_name(name)
+      name = CGI::escape(name)
+
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
       json_data = JSON.parse(response.body)
 

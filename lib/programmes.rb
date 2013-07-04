@@ -1,3 +1,5 @@
+require 'cgi'
+
 class Programmes
   include HTTParty
   #http_proxy 'www-cache.reith.bbc.co.uk', 80 if Rails.env.development?
@@ -6,7 +8,7 @@ class Programmes
 
     # Takes a person and returns a list of radio programmes relating to that person
     def find_radio_programmes_by_person(person)
-      response = get("http://www.bbc.co.uk/programmes/topics/#{person.name.gsub(' ', '_')}.json")
+      response = get("http://www.bbc.co.uk/programmes/topics/#{CGI::escape(person.name.gsub(' ', '_'))}.json")
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
@@ -28,7 +30,7 @@ class Programmes
 
     # Takes a person and returns a list of tv programmes relating to that person
     def find_tv_programmes_by_person(person)
-      response = get("http://www.bbc.co.uk/programmes/topics/#{person.name.gsub(' ', '_')}.json")
+      response = get("http://www.bbc.co.uk/programmes/topics/#{CGI::escape(person.name.gsub(' ', '_'))}.json")
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
