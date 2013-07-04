@@ -54,6 +54,9 @@
           No relevant reading material.
         <% else %>
           <%= render :partial => 'shared/article', :collection => @articles.take(5) %>
+
+          <br><br>
+          <p><%= link_to raw("#{image_tag('rss.gif')} Get the RSS Feed"), read_rss_profile_path(@person.url_key) %></p>
         <% end %>
       </div>
       <div class="tab-pane programme-data data" id="listen">
