@@ -7,6 +7,7 @@ class Programmes
     # Takes a person and returns a list of radio programmes relating to that person
     def find_radio_programmes_by_person(person)
       response = get("http://www.bbc.co.uk/programmes/topics/#{person.name.gsub(' ', '_')}.json")
+      return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
       p = json_data['category_page']['available_programmes'].take(30).map do |json|
@@ -28,6 +29,7 @@ class Programmes
     # Takes a person and returns a list of tv programmes relating to that person
     def find_tv_programmes_by_person(person)
       response = get("http://www.bbc.co.uk/programmes/topics/#{person.name.gsub(' ', '_')}.json")
+      return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
       p = json_data['category_page']['available_programmes'].take(30).map do |json|

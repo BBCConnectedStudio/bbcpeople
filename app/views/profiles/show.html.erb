@@ -1,0 +1,95 @@
+<% title(@person.name) %>
+
+<% content_for :extra_nav do %>
+
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li>
+            <label class="radio inline" for="normal-mode">
+              <input type="radio" class="modes" name="mode" id="normal-mode" value="normal" /> Normal
+              </label>
+            <label class="radio inline" for="source-mode">
+              <input type="radio" name="mode" class="modes" id="source-mode" value="source" /> View Source
+            </label>
+            <label class="radio inline" for="hidden-mode">
+              <input type="radio" name="mode" class="modes" id="hidden-mode" value="hidden" /> Hide Unmoderated
+              </label>
+            </li>
+            <li><span class="juicer-key source-legend">Juicer</span></li>
+            <li><span class="pips-key source-legend">PIPs Contributions</span></li>
+            <li><span class="programme-key source-legend">PIPs Tags</span></li>
+            </ul>
+          </div>
+        </div>
+
+<% end %>
+
+<div class="row">
+  <div class="span3">
+    <% unless @person.image.blank? %>
+      <%= image_tag(@person.image, :alt => @person.name, :class => 'juicer-data data') %>
+    <% end %>
+
+    <br><br>
+    <div id="tag-container" class="well well-small juicer-data data" style="width: 180px;">
+      <canvas width="180" height="200" id="tag-cloud">
+        <% @organisations.each do |o| %>
+          <%= link_to o.name, show_profile_path(o.url_key) %>
+        <% end %>
+      </canvas>
+    </div>
+  </div>
+  <div class="span9">
+    <h1 class="juicer-data data"><%=h @person.name %></h1>
+    <p class="juicer-data data"><%=h @person.description %></p>
+
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#read" data-toggle="tab">Read</a></li>
+      <li><a href="#listen" data-toggle="tab">Listen</a></li>
+      <li><a href="#watch" data-toggle="tab">Watch</a></li>
+    </ul>
+    <div class="tab-content">
+      <div class="tab-pane active juicer-data data" id="read">
+        <% if @articles.nil? %>
+          No relevant reading material.
+        <% else %>
+          <%= render :partial => 'shared/article', :collection => @articles.take(5) %>
+        <% end %>
+      </div>
+      <div class="tab-pane programme-data data" id="listen">
+        <% if @radio_programmes.nil? %>
+          No radio programmes available.
+        <% else %>
+          <%= render :partial => 'shared/programme', :collection => @radio_programmes.take(5) %>
+        <% end %>
+      </div>
+      <div class="tab-pane programme-data data" id="watch">
+        <% if @tv_programmes.nil? %>
+          No TV programmes available.
+        <% else %>
+          <%= render :partial => 'shared/programme', :collection => @tv_programmes.take(5) %>
+        <% end %>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<hr />
+<h2>Related People</h2>
+
+<div class="row-fluid juicer-data data">
+  <ul class="thumbnails">
+    <% @people.take(4).each do |person| %>
+      <li class="span3">
+        <div class="thumbnail">
+          <%= image_tag(person.image_uri, :alt => person.name) %>
+          <div class="caption">
+            <h3><%=h person.name %><span class="badge badge-success pull-right"><%= person.cooccurence_count %></span></h3>
+            <p class="text-center"><%= link_to('View Details', show_profile_path(person.url_key), :class => "btn btn-primary") %></p>
+          </div>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+</div>
