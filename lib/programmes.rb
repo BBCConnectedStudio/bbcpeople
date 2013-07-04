@@ -16,9 +16,10 @@ class Programmes
         programme = Programme.new(
           pid:    json['pid'],
           title:  json['display_titles']['title'],
-          subtitle:  json['display_titles']['subtitle'],
-          synopsis:       json['short_synopsis']
+          subtitle: json['display_titles']['subtitle'],
+          synopsis: json['short_synopsis']
         )
+        programme.created_at = json['first_broadcast_date']
 
         return nil unless json['media_type'] == 'audio'
         programme
@@ -38,9 +39,10 @@ class Programmes
         programme = Programme.new(
           pid:    json['pid'],
           title:  json['display_titles']['title'],
-          subtitle:  json['display_titles']['subtitle'],
-          synopsis:       json['short_synopsis']
+          subtitle: json['display_titles']['subtitle'],
+          synopsis: json['short_synopsis']
         )
+        programme.created_at = json['first_broadcast_date']
 
         return nil if json['media_type'] == 'audio'
         programme

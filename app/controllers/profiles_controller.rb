@@ -1,12 +1,12 @@
 class ProfilesController < ApplicationController
+
+  before_filter :set_person, :except => [:index]
+
   def index
     @page_title = 'People'
   end
 
   def show
-    name = CGI::unescape(params[:name])
-    @person = ::Juicer.person_by_name(name) || not_found
-
     @articles = ::Juicer.articles_related_to(@person)
     @people   = ::Juicer.people_related_to(@person)
     @organisations = ::Juicer.organisations_related_to(@person)
@@ -19,13 +19,41 @@ class ProfilesController < ApplicationController
 
   end
 
-  def read_rss
-    name = CGI::unescape(params[:name])
-    @person   = ::Juicer.person_by_name(name) || not_found
+  def read
     @articles = ::Juicer.articles_related_to(@person)
 
     respond_to do |format|
-      format.rss { render :layout => false }
+      format.html { render 'read' }
+      format.rss { render 'profiles/read_rss', :layout => false }
+    end
+  end
+
+  def listen
+    @programme_type = 'radio'
+    @programmes = ::Programmes.find_radio_programmes_by_person(@person)
+
+    respond_to do |format|
+      format.html { render 'programme' }
+      format.rss { render 'profiles/programme_rss', :layout => false }
+    end
+  end
+
+  def watch
+    @programme_type = 'tv'
+    @programmes = ::Programmes.find_tv_programmes_by_person(@person)
+
+    respond_to do |format|
+      format.html { render 'programme' }
+      format.rss { render 'profiles/programme_rss', :layout => false }
+    end
+  end
+
+
+  private
+  def set_person
+    unless params[:name].blank?
+      @name = CGI::unescape(params[:name])
+      @person = ::Juicer.person_by_name(@name) || not_found
     end
   end
 end

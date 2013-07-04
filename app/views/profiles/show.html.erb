@@ -2,25 +2,25 @@
 
 <% content_for :extra_nav do %>
 
-        <div class="nav-collapse collapse">
-          <ul class="nav">
-            <li>
-            <label class="radio inline" for="normal-mode">
-              <input type="radio" class="modes" name="mode" id="normal-mode" value="normal" /> Normal
-              </label>
-            <label class="radio inline" for="source-mode">
-              <input type="radio" name="mode" class="modes" id="source-mode" value="source" /> View Source
-            </label>
-            <label class="radio inline" for="hidden-mode">
-              <input type="radio" name="mode" class="modes" id="hidden-mode" value="hidden" /> Hide Unmoderated
-              </label>
-            </li>
-            <li><span class="juicer-key source-legend">Juicer</span></li>
-            <li><span class="pips-key source-legend">PIPs Contributions</span></li>
-            <li><span class="programme-key source-legend">PIPs Tags</span></li>
-            </ul>
-          </div>
-        </div>
+  <div class="nav-collapse collapse">
+    <ul class="nav">
+      <li>
+      <label class="radio inline" for="normal-mode">
+        <input type="radio" class="modes" name="mode" id="normal-mode" value="normal" /> Normal
+      </label>
+      <label class="radio inline" for="source-mode">
+        <input type="radio" name="mode" class="modes" id="source-mode" value="source" /> View Source
+      </label>
+      <label class="radio inline" for="hidden-mode">
+        <input type="radio" name="mode" class="modes" id="hidden-mode" value="hidden" /> Hide Unmoderated
+      </label>
+      </li>
+      <li><span class="juicer-key source-legend">Juicer</span></li>
+      <li><span class="pips-key source-legend">PIPs Contributions</span></li>
+      <li><span class="programme-key source-legend">PIPs Tags</span></li>
+    </ul>
+  </div>
+  </div>
 
 <% end %>
 
@@ -51,27 +51,33 @@
     <div class="tab-content">
       <div class="tab-pane active juicer-data data" id="read">
         <% if @articles.nil? %>
-          No relevant reading material.
+          No relevant reading material.<br>
         <% else %>
           <%= render :partial => 'shared/article', :collection => @articles.take(5) %>
 
-          <br><br>
-          <p><%= link_to raw("#{image_tag('rss.gif')} Get the RSS Feed"), read_rss_profile_path(@person.url_key) %></p>
+          <br>
+          <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), read_profile_path(@person.url_key), :title => 'Subscribe via RSS' %></p>
         <% end %>
       </div>
       <div class="tab-pane programme-data data" id="listen">
         <% if @radio_programmes.nil? %>
-          No radio programmes available.
+          No radio programmes available.<br>
         <% else %>
           <%= render :partial => 'shared/programme', :collection => @radio_programmes.take(5) %>
         <% end %>
-      </div>
+
+        <br>
+        <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), listen_profile_path(@person.url_key), :title => 'Subscribe via RSS' %></p>
+    </div>
       <div class="tab-pane programme-data data" id="watch">
         <% if @tv_programmes.nil? %>
-          No TV programmes available.
+          No TV programmes available.<br>
         <% else %>
           <%= render :partial => 'shared/programme', :collection => @tv_programmes.take(5) %>
         <% end %>
+
+        <br>
+        <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), watch_profile_path(@person.url_key), :title => 'Subscribe via RSS' %></p>
       </div>
     </div>
 

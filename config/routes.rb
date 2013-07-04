@@ -52,10 +52,12 @@ People::Application.routes.draw do
 
   get 'people'        => 'profiles#index'
   scope '/profiles' do
-    get '/:name' => 'profiles#show', :as => 'show_profile'
-    get '/:name/read.rss' => 'profiles#read_rss', :as => 'read_rss_profile', :defaults => { :format => 'rss' }
+    get '/:name' => 'profiles#show', :as => 'show_profile', :format => false, :constraints => {:name => /[%A-Za-z0-9\._\-]+/}
+    get '/:name/read' => 'profiles#read', :as => 'read_profile', :defaults => { :format => 'rss' }
+    get '/:name/listen/player' => 'profiles#listen', :as => 'listen_profile', :defaults => { :format => 'rss' }
+    get '/:name/watch/player' => 'profiles#watch', :as => 'watch_profile', :defaults => { :format => 'rss' }
   end
-   get '/meta/chrome'       => 'meta#chrome', :as => 'chrome'
+  get '/meta/chrome'       => 'meta#chrome', :as => 'chrome'
   get '/meta/chrome-extension' => 'meta#chrome_extension', :as => 'chrome_extension'
 
   # See how all your routes lay out with "rake routes"

@@ -26,7 +26,7 @@ group :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'rb-readline'
-  gem 'rb-inotify', '~> 0.9'
+  gem 'rb-inotify', '~> 0.9', :require => false
   gem 'guard-rspec'
   gem 'term-ansicolor'
   gem 'capybara'
