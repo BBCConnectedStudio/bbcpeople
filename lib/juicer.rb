@@ -12,7 +12,7 @@ class Juicer
 
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
 
-      return nil if response.body.blank?
+      return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
       Person.new(name:        json_data['label'],
@@ -27,7 +27,7 @@ class Juicer
 
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
 
-      return nil if response.body.blank?
+      return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
       Organisation.new(name:        json_data['label'],
@@ -41,7 +41,7 @@ class Juicer
     def articles_related_to(entity)
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=#{entity.dbpedia_uri}&limit=20"))
 
-      return nil if response.body.blank?
+      return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
       return [] unless json_data['articles']
@@ -58,7 +58,7 @@ class Juicer
 
     def people_related_to(entity)
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Person&limit=9"))
-      return nil if response.body.blank?
+      return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
       json_data['co-occurrences'].map do |json|
@@ -78,7 +78,7 @@ class Juicer
 
     def organisations_related_to(entity)
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Organisation&limit=9"))
-      return nil if response.body.blank?
+      return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
       json_data['co-occurrences'].map do |json|
@@ -93,7 +93,8 @@ class Juicer
 
     def people_related_to_article(id)
       response = get(URI.encode("http://juicer.bbcnewslabs.co.uk/articles/#{id}.json"))
-      return nil if response.body.blank?
+
+      return [] if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
       json_data['article']['people'].map do |json|
@@ -104,7 +105,7 @@ class Juicer
 
     def organisations_related_to_article(id)
       response = get(URI.encode("http://juicer.bbcnewslabs.co.uk/articles/#{id}.json"))
-      return nil if response.body.blank?
+      return [] if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
       json_data['article']['organisations'].map do |json|
