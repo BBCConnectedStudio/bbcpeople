@@ -26,10 +26,13 @@ class Juicer
       name = CGI::escape(name)
 
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
+
+      return nil if response.body.blank?
       json_data = JSON.parse(response.body)
 
       Organisation.new(name:        json_data['label'],
                        description: json_data['abstract'],
+                       image_uri:   json_data['thumbnail'],
                        dbpedia_uri: json_data['uri'])
     end
 
@@ -37,6 +40,8 @@ class Juicer
     # Takes an entity object and returns an array of news articles relating to that entity
     def articles_related_to(entity)
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=#{entity.dbpedia_uri}&limit=20"))
+
+      return nil if response.body.blank?
       json_data = JSON.parse(response.body)
 
       return [] unless json_data['articles']
@@ -53,6 +58,7 @@ class Juicer
 
     def people_related_to(entity)
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Person&limit=9"))
+      return nil if response.body.blank?
       json_data = JSON.parse(response.body)
 
       json_data['co-occurrences'].map do |json|
@@ -72,6 +78,7 @@ class Juicer
 
     def organisations_related_to(entity)
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Organisation&limit=9"))
+      return nil if response.body.blank?
       json_data = JSON.parse(response.body)
 
       json_data['co-occurrences'].map do |json|
@@ -81,6 +88,28 @@ class Juicer
           dbpedia_uri:       json['thing'],
           image_uri:         json['img']
         )
+      end
+    end
+
+    def people_related_to_article(id)
+      response = get(URI.encode("http://juicer.bbcnewslabs.co.uk/articles/#{id}.json"))
+      return nil if response.body.blank?
+      json_data = JSON.parse(response.body)
+
+      json_data['article']['people'].map do |json|
+        name = URI.escape(CGI.escape( json['uri'].split( '/' ).last ),'.')
+        ::Juicer.person_by_name(name)
+      end
+    end
+
+    def organisations_related_to_article(id)
+      response = get(URI.encode("http://juicer.bbcnewslabs.co.uk/articles/#{id}.json"))
+      return nil if response.body.blank?
+      json_data = JSON.parse(response.body)
+
+      json_data['article']['organisations'].map do |json|
+        name = URI.escape(CGI.escape( json['uri'].split( '/' ).last ),'.')
+        ::Juicer.organisation_by_name(name)
       end
     end
   end

@@ -12,7 +12,7 @@ body {
 .data { border-radius: 3px; padding: 5px; }
 
 .juicer-data.hide { display: none; }
-.pips-data.hide { opacity: 0.5; }
+.programme-data.hide { opacity: 0.5; }
 
 .nav label.radio { color: #ffffff; }
 

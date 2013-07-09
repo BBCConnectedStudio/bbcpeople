@@ -1,0 +1,19 @@
+<% unless @people.blank? %>
+
+  <div class="feature-generic see-also">
+    <h2 class="features-header" style="border: none;">Related</h2>
+    <ul class="feature-main" style="padding-top: 10px;">
+      <% @entities.each do |entity| %>
+        <% next if entity.nil? %>
+        <li class="medium-image">
+          <h3 class=" feature-header" style="border: none;">
+            <%= link_to raw("#{image_tag(entity.image, :alt => entity.name, :style => 'float: left; width: 112px; height: 63px;')} #{h entity.name}"), show_profile_url(entity.url_key), :class => 'story image' %>
+          </h3>
+          <p><%=h truncate(entity.description, :length => 80) %></p>
+          <hr>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+<% end %>
