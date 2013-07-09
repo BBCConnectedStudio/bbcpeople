@@ -113,5 +113,21 @@ class Juicer
         ::Juicer.organisation_by_name(name)
       end
     end
+
+    def trending_people(after_date=nil)
+      after_date = (Time.now - 1.day).strftime("%Y-%m-%d")
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/occurrences?type=http://dbpedia.org/ontology/Person&limit=20&after=#{after_date}"))
+      return nil if response.body.blank? || response.code != 200
+      json_data = JSON.parse(response.body)
+
+      json_data['occurrences'].map do |json|
+        Person.new(
+          name:              json['label'],
+          cooccurence_count: json['occurrence'],
+          dbpedia_uri:       json['thing'],
+          image_uri:         json['img']
+        )
+      end
+    end
   end
 end

@@ -1,22 +1,21 @@
 <% title('BBC People') %>
 
-<h1>BBC People</h1>
+<h1>BBC People <small>in the news</small></h1>
 
-<% people = Person.where(:name => [
-    'David Cameron',
-    'Barack Obama',
-    'Sarah Palin',
-    'Bradley Wiggins',
-    'Rupert Murdoch',
-    'Andy Murray',
-    'Wayne Rooney'
-]) %>
 <div class="well">
-  <% people.each do |person| %>
-  <div class="media">
-    <%= link_to image_tag(person.image_uri), show_profile_path(person.xpedia_slug), :class => 'pull-left' %>
-    <div class="media-body">
-      <h3><%= link_to person.name, show_profile_path(person.xpedia_slug), :class => 'pull-left' %></h3>
+  <% @people.each do |person| %>
+  <div class="row-fluid" style="padding: 5px 0 15px; border-bottom: 1px solid #ccc;">
+    <div class="span1">
+      <%= link_to image_tag(person.image), show_profile_path(person.url_key), :style => "width:50px; height:50px;" %>
+    </div>
+    <div class="span3">
+      <h3><%= link_to person.name, show_profile_path(person.url_key), :class => 'pull-left' %></h3>
+    </div>
+    <div class="span8">
+      <br>
+      <div class="progress">
+        <div class="bar bar-success" style="width: <%= popularity_score(@max_score, person.cooccurence_count) %>%;"></div>
+      </div>
     </div>
   </div>
   <% end %>

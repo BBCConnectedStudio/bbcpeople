@@ -3,7 +3,9 @@ class ProfilesController < ApplicationController
   before_filter :set_person, :except => [:index]
 
   def index
-    @page_title = 'People'
+   @people = ::Juicer.trending_people
+   @max_score = @people.first.cooccurence_count
+   @page_title = 'People'
   end
 
   def show
