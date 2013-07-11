@@ -19,7 +19,6 @@ class Programmes
           subtitle: json['display_titles']['subtitle'],
           synopsis: json['short_synopsis']
         )
-        programme.created_at = json['first_broadcast_date']
 
         return nil unless json['media_type'] == 'audio'
         programme
@@ -31,7 +30,7 @@ class Programmes
 
     # Takes a person and returns a list of tv programmes relating to that person
     def find_tv_programmes_by_person(person)
-      response = get("http://www.bbc.co.uk/programmes/topics/#{CGI::escape(person.name.gsub(' ', '_'))}.json")
+      response = get("http://www.bbc.co.uk/programmes/topics/#{CGI::escape(person.url_key)}.json")
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
@@ -42,7 +41,6 @@ class Programmes
           subtitle: json['display_titles']['subtitle'],
           synopsis: json['short_synopsis']
         )
-        programme.created_at = json['first_broadcast_date']
 
         return nil if json['media_type'] == 'audio'
         programme
@@ -51,6 +49,23 @@ class Programmes
       p.compact!
       p
     end
-  end
 
+    def fetch_upcoming_programmes(person, type)
+      response = get("http://www.bbc.co.uk/#{type}/programmes/topics/#{CGI::escape(person.url_key)}/schedules/upcoming.json")
+      return nil unless response.code == 200
+      json_data = JSON.parse(response.body)
+
+      json_data['broadcasts'].take(20).map do |json|
+        Programme.new(
+          pid:    json['programme']['pid'],
+          title:  json['programme']['display_titles']['title'],
+          subtitle: json['programme']['display_titles']['subtitle'],
+          synopsis: json['programme']['short_synopsis'],
+          start_time: json['start'].to_datetime,
+          channel: json['service']['title'],
+          image: "http://ichef.bbci.co.uk/images/ic/256x144/legacy/episode/#{json['programme']['pid']}.jpg?nodefault=true"
+        )
+      end
+    end
+  end
 end

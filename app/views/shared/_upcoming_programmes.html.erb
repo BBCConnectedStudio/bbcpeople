@@ -1,0 +1,19 @@
+<h3>Upcoming Broadcasts</h3>
+
+<% programmes.each do |programme| %>
+  <div class="row-fluid">
+    <div class="span3"><%= image_tag programme.image, :class => 'img-polaroid' %></div>
+    <div class="span9">
+      <h4><%= link_to( "#{sanitize programme.title} - #{sanitize programme.subtitle}", "http://www.bbc.co.uk/programmes/#{programme.pid}" ) %></h4>
+      <p class="synopsis"><%= sanitize programme.synopsis %></p>
+      <p>
+        On <strong><%=sanitize programme.channel %></strong> at
+        <strong><%= programme.start_time.strftime('%l:%M%P, %A %e %b') %></strong>
+      </p>
+    </div>
+  </div>
+<% end %>
+
+  <br>
+
+

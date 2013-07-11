@@ -16,6 +16,9 @@ class ProfilesController < ApplicationController
     @tv_programmes = ::Programmes.find_tv_programmes_by_person(@person)
     @radio_programmes = ::Programmes.find_radio_programmes_by_person(@person)
 
+    @upcoming_tv_programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
+    @upcoming_radio_programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
+
     # checks if they're a politician
     @politician = Politician.find_by_xpedia_slug( @person.xpedia_slug)
 

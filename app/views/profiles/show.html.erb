@@ -43,44 +43,7 @@
     <h1 class="juicer-data data"><%=h @person.name %></h1>
     <p class="juicer-data data"><%=h @person.description %></p>
 
-    <ul class="nav nav-tabs">
-      <li class="active"><a href="#read" data-toggle="tab">Read</a></li>
-      <li><a href="#listen" data-toggle="tab">Listen</a></li>
-      <li><a href="#watch" data-toggle="tab">Watch</a></li>
-    </ul>
-    <div class="tab-content">
-      <div class="tab-pane active juicer-data data" id="read">
-        <% if @articles.nil? %>
-          No relevant reading material.<br>
-        <% else %>
-          <%= render :partial => 'shared/article', :collection => @articles.take(5) %>
-
-          <br>
-          <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), read_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
-        <% end %>
-      </div>
-      <div class="tab-pane programme-data data" id="listen">
-        <% if @radio_programmes.nil? %>
-          No radio programmes available.<br>
-        <% else %>
-          <%= render :partial => 'shared/programme', :collection => @radio_programmes.take(5) %>
-        <% end %>
-
-        <br>
-        <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), listen_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
-    </div>
-      <div class="tab-pane programme-data data" id="watch">
-        <% if @tv_programmes.nil? %>
-          No TV programmes available.<br>
-        <% else %>
-          <%= render :partial => 'shared/programme', :collection => @tv_programmes.take(5) %>
-        <% end %>
-
-        <br>
-        <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), watch_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
-      </div>
-    </div>
-
+    <%= render :partial => 'profiles/content_tabs' %>
   </div>
 </div>
 

@@ -1,0 +1,14 @@
+<h3>iPlayer</h3>
+
+<ul>
+  <% programmes.each do |programme| %>
+    <li>
+      <%= content_tag( 'h4', link_to( "#{sanitize programme.title} - #{sanitize programme.subtitle}", "http://www.bbc.co.uk/programmes/#{programme.pid}" ) ) %>
+      <%= content_tag( 'p', (sanitize programme.synopsis ), :class => 'synopsis' ) %>
+    </li>
+  <% end %>
+</ul>
+
+<br>
+
+

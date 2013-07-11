@@ -1,4 +1,12 @@
-class Programme < ActiveRecord::Base
+class Programme
+  include ActiveAttr::Model
 
-  attr_accessible :pid, :title, :subtitle, :synopsis
+  attribute :pid
+  attribute :title
+  attribute :subtitle
+  attribute :synopsis
+  attribute :start_time
+  attribute :channel
+  attribute :image
+
 end
