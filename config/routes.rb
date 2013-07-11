@@ -55,7 +55,9 @@ People::Application.routes.draw do
   scope '/profiles' do
     get '/:name' => 'profiles#show', :as => 'show_profile', :format => false, :constraints => {:name => /[%A-Za-z0-9\._\-]+/}
     get '/:name/read' => 'profiles#read', :as => 'read_profile'
+    get '/:name/listen/schedules' => 'profiles#radio_schedules', :as => 'radio_schedules'
     get '/:name/listen/player' => 'profiles#listen', :as => 'listen_profile'
+    get '/:name/watch/schedules' => 'profiles#tv_schedules', :as => 'tv_schedules'
     get '/:name/watch/player' => 'profiles#watch', :as => 'watch_profile'
   end
   get '/meta/chrome'       => 'meta#chrome', :as => 'chrome'

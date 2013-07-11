@@ -17,7 +17,8 @@ class Programmes
           pid:    json['pid'],
           title:  json['display_titles']['title'],
           subtitle: json['display_titles']['subtitle'],
-          synopsis: json['short_synopsis']
+          synopsis: json['short_synopsis'],
+          type: :radio
         )
 
         return nil unless json['media_type'] == 'audio'
@@ -39,7 +40,8 @@ class Programmes
           pid:    json['pid'],
           title:  json['display_titles']['title'],
           subtitle: json['display_titles']['subtitle'],
-          synopsis: json['short_synopsis']
+          synopsis: json['short_synopsis'],
+          type: :tv
         )
 
         return nil if json['media_type'] == 'audio'
@@ -62,6 +64,8 @@ class Programmes
           subtitle: json['programme']['display_titles']['subtitle'],
           synopsis: json['programme']['short_synopsis'],
           start_time: json['start'].to_datetime,
+          end_time: json['end'].to_datetime,
+          type: type,
           channel: json['service']['title'],
           image: "http://ichef.bbci.co.uk/images/ic/256x144/legacy/episode/#{json['programme']['pid']}.jpg?nodefault=true"
         )

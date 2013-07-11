@@ -53,6 +53,33 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def radio_schedules
+    @programme_type = 'radio'
+    @programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
+    calendar = Programme.calendar(@programmes)
+
+     respond_to do |format|
+       format.ics do
+         headers['Content-Type'] = "text/calendar; charset=UTF-8"
+         render :text => calendar.to_ical, :layout => false
+       end
+       format.html { render 'programme' }
+     end
+  end
+
+  def tv_schedules
+    @programme_type = 'tv'
+    @programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
+    calendar = Programme.calendar(@programmes)
+
+     respond_to do |format|
+       format.ics do
+         headers['Content-Type'] = "text/calendar; charset=UTF-8"
+         render :text => calendar.to_ical, :layout => false
+       end
+       format.html { render 'programme' }
+     end
+  end
 
   private
   def set_person

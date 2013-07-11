@@ -7,6 +7,7 @@ gem 'nokogiri'
 gem 'httparty'
 gem 'jquery-rails'
 gem 'active_attr'
+gem 'icalendar'
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do
