@@ -10,7 +10,7 @@ class Juicer
     def person_by_name(name)
       name = CGI::escape(name)
 
-      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
+      response = get("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20")
 
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)

@@ -11,7 +11,7 @@ class ProfilesController < ApplicationController
   def show
     @articles = ::Juicer.articles_related_to(@person)
     @people   = ::Juicer.people_related_to(@person)
-    @organisations = ::Juicer.organisations_related_to(@person)
+    @organisations = ::Juicer.organisations_related_to(@person) || []
 
     @tv_programmes = ::Programmes.find_tv_programmes_by_person(@person)
     @radio_programmes = ::Programmes.find_radio_programmes_by_person(@person)

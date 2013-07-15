@@ -30,6 +30,7 @@
       <%= image_tag(@person.image, :alt => @person.name, :class => 'juicer-data data') %>
     <% end %>
 
+    <% if @organisations.present? %>
     <br><br>
     <div id="tag-container" class="well well-small juicer-data data" style="width: 180px;">
       <canvas width="180" height="200" id="tag-cloud">
@@ -38,6 +39,7 @@
         <% end %>
       </canvas>
     </div>
+    <% end %>
   </div>
   <div class="span9">
     <h1 class="juicer-data data"><%=h @person.name %></h1>
@@ -47,6 +49,7 @@
   </div>
 </div>
 
+<% if @people.present? %>
 <hr />
 <h2>Related People</h2>
 
@@ -65,3 +68,4 @@
     <% end %>
   </ul>
 </div>
+<% end %>

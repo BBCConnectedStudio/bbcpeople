@@ -53,7 +53,7 @@ People::Application.routes.draw do
   get 'people'        => 'profiles#index'
   get 'articles/:id/related'      => 'articles#related'
   scope '/profiles' do
-    get '/:name' => 'profiles#show', :as => 'show_profile', :format => false, :constraints => {:name => /[%A-Za-z0-9\._\-]+/}
+    get '/:name' => 'profiles#show', :as => 'show_profile', :format => false, :constraints => {:name => /[%A-Za-z0-9()\._\-]+/}
     get '/:name/read' => 'profiles#read', :as => 'read_profile'
     get '/:name/listen/schedules' => 'profiles#radio_schedules', :as => 'radio_schedules'
     get '/:name/listen/player' => 'profiles#listen', :as => 'listen_profile'
