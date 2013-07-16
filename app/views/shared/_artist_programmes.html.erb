@@ -1,0 +1,13 @@
+<% if artist_programmes.present? %>
+<h3>Programmes</h3>
+
+  <% artist_programmes.each do |programme| %>
+    <%= image_tag programme.image, :style => 'width: 80px;', :class => 'pull-right'  %>
+    <div>
+      <strong><%=sanitize programme.title %></strong><br>
+      <%= link_to "#{sanitize programme.synopsis}", "http://www.bbc.co.uk/programmes/#{programme.pid}" %>
+    </div>
+  <% end %>
+
+<br>
+<% end %>

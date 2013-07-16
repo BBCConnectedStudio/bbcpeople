@@ -71,5 +71,37 @@ class Programmes
         )
       end
     end
+
+    def fetch_latest_artist_tracks(guid)
+      response = get("http://www.bbc.co.uk/programmes/music/artists/#{guid}.json")
+      return nil unless response.code == 200
+      json_data = JSON.parse(response.body)
+
+      json_data['artist']['latest_segment_events'].take(20).map do |json|
+        Programme.new(
+          pid:    json['episode']['pid'],
+          title:  json['segment']['track_title'],
+          subtitle: "#{json['tleo']['title']} #{json['episode']['title']}",
+          image: "http://ichef.bbci.co.uk/images/ic/256x144/legacy/episode/#{json['episode']['pid']}.jpg?nodefault=true"
+        )
+      end
+    end
+
+    def fetch_latest_artist_programmes(guid)
+      response = get("http://www.bbc.co.uk/programmes/music/artists/#{guid}.json")
+      return nil unless response.code == 200
+      json_data = JSON.parse(response.body)
+
+      json_data['artist']['tleos_played_on'].take(20).map do |json|
+        Programme.new(
+          pid:    json['pid'],
+          title:  json['title'],
+          synopsis: json['short_synopsis'],
+          image: "http://ichef.bbci.co.uk/images/ic/256x144/legacy/episode/#{json['pid']}.jpg?nodefault=true"
+        )
+      end
+    end
+
   end
+
 end

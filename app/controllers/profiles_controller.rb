@@ -19,6 +19,10 @@ class ProfilesController < ApplicationController
     @upcoming_tv_programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
     @upcoming_radio_programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
 
+    artist_pid = ::MusicBrainz.fetch_guid(@person.url_key)
+    @artist_programmes = ::Programmes.fetch_latest_artist_programmes(artist_pid)
+    @latest_tracks = ::Programmes.fetch_latest_artist_tracks(artist_pid)
+
     # checks if they're a politician
     @politician = Politician.find_by_xpedia_slug( @person.xpedia_slug)
 
