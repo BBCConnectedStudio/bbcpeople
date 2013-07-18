@@ -29,8 +29,8 @@ $(document).ready(function() {
         $('.source-legend').show();
         break;
       case 'hidden':
-        $('.data').removeClass('show');
-        $('.data').addClass('hide');
+//        $('.data').removeClass('show');
+        $('.data').addClass('hide show');
         $('.source-legend').hide();
         break;
     }

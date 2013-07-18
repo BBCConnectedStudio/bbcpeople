@@ -5,14 +5,14 @@ body {
 .thumbnails .thumbnail img { width: 200px; height: 200px;}
 
 .juicer-data.show, .juicer-key { background-color: #E09952; }
-.pips-tags-data.show, .pips-key { background-color: #DBDB57; }
-.pips-contributions-data.show, .programme-key { background-color: #CB4D4D; }
+.pips-contributions-data.show, .pips-key { background-color: #DBDB57; }
+.pips-tags-data.show, .programme-key { background-color: #CB4D4D; }
 
 .source-legend { float: left; margin: 5px 0 0 10px; padding: 5px; border-radius: 2px;}
 .data { border-radius: 3px; padding: 5px; }
 
 .juicer-data.hide { display: none; }
-.programme-data.hide { opacity: 0.5; }
+.pips-tags-data.hide { opacity: 0.5; }
 
 .nav label.radio { color: #ffffff; }
 

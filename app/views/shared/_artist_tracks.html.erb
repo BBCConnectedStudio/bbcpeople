@@ -1,12 +1,14 @@
 <% if tracks.present? %>
-<h3>Latest Tracks</h3>
+  <div class="pips-tags-data data">
+    <h3>Latest Tracks</h3>
 
-  <% tracks.each do |track| %>
-    <%= image_tag track.image, :style => 'width: 80px;', :class => 'pull-right'  %>
-    <div>
-      <strong><%=sanitize track.title %></strong><br>
-      <%= link_to "#{sanitize track.subtitle}", "http://www.bbc.co.uk/programmes/#{track.pid}" %>
-    </div>
-  <hr>
-  <% end %>
+    <% tracks.each do |track| %>
+      <%= image_tag track.image, :style => 'width: 80px;', :class => 'pull-right'  %>
+      <div>
+        <strong><%=sanitize track.title %></strong><br>
+        <%= link_to "#{sanitize track.subtitle}", "http://www.bbc.co.uk/programmes/#{track.pid}" %>
+      </div>
+      <hr>
+    <% end %>
+  </div>
 <% end %>
