@@ -10,7 +10,7 @@ xml.rss :version => "2.0" do
         xml.item do
           xml.title "#{programme.title} - #{programme.subtitle}"
           xml.description programme.synopsis
-          xml.pubDate programme.created_at.to_s(:rfc822)
+          xml.pubDate programme.start_time.to_s
           xml.link "http://www.bbc.co.uk/programmes/#{programme.pid}"
           xml.guid "http://www.bbc.co.uk/programmes/#{programme.pid}"
         end
