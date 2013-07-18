@@ -11,6 +11,6 @@ class Entity < ActiveRecord::Base
   end
 
   def image
-    self.image_uri || 'https://progamer-production.s3.amazonaws.com/uploads/profile/headshot/4fb2b3f60d2d1d71600000af/mid_silhouette.png'
+    self.image_uri || 'silhouette.png'
   end
 end

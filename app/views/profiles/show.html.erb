@@ -63,7 +63,7 @@
     <% @people.take(4).each do |person| %>
       <li class="span3">
         <div class="thumbnail">
-          <%= image_tag(person.image_uri, :alt => person.name) %>
+          <%= image_tag(person.image, :alt => person.name) %>
           <div class="caption">
             <h3><%=h person.name %><span class="badge badge-success pull-right"><%= person.cooccurence_count %></span></h3>
             <p class="text-center"><%= link_to('View Details', show_profile_path(person.url_key), :class => "btn btn-primary") %></p>
