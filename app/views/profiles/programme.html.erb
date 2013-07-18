@@ -1,1 +1,5 @@
-<%= render :partial => 'shared/programmes', :programmes => @programmes %>
+<% if @programmes.present? %>
+  <%= render 'shared/programmes', :programmes => @programmes %>
+<% else %>
+  <p>There are no programmes available.</p>
+<% end %>

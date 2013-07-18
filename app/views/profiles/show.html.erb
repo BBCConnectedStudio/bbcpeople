@@ -45,7 +45,7 @@
     <h1 class="juicer-data data"><%=h @person.name %></h1>
     <p class="juicer-data data"><%=h @person.description %></p>
 
-    <%= render :partial => 'profiles/content_tabs' %>
+    <%= render 'profiles/content_tabs' %>
   </div>
   <div class="span3">
     <%= render 'shared/artist_reviews', :reviews=> @reviews %>

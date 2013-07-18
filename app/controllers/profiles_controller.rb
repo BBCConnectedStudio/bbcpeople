@@ -48,6 +48,23 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def listen_all
+    @programme_type = 'radio'
+    @programmes = ::Programmes.find_radio_programmes_by_person(@person)
+    @upcoming_programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
+
+    render 'all_programmes'
+  end
+
+
+  def watch_all
+    @programme_type = 'tv'
+    @programmes = ::Programmes.find_tv_programmes_by_person(@person)
+    @upcoming_programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
+
+    render 'all_programmes'
+  end
+
   def watch
     @programme_type = 'tv'
     @programmes = ::Programmes.find_tv_programmes_by_person(@person)

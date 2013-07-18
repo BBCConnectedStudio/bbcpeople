@@ -57,9 +57,12 @@ People::Application.routes.draw do
     get '/:name/read' => 'profiles#read', :as => 'read_profile'
     get '/:name/listen/schedules' => 'profiles#radio_schedules', :as => 'radio_schedules'
     get '/:name/listen/player' => 'profiles#listen', :as => 'listen_profile'
+    get '/:name/listen' => 'profiles#listen_all'
     get '/:name/watch/schedules' => 'profiles#tv_schedules', :as => 'tv_schedules'
     get '/:name/watch/player' => 'profiles#watch', :as => 'watch_profile'
+    get '/:name/watch' => 'profiles#watch_all'
   end
+
   get '/meta/chrome'       => 'meta#chrome', :as => 'chrome'
   get '/meta/chrome-extension' => 'meta#chrome_extension', :as => 'chrome_extension'
 
