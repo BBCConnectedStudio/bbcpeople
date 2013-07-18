@@ -6,7 +6,7 @@
     <% artist_programmes.each do |programme| %>
       <%= image_tag programme.image, :style => 'width: 80px;', :class => 'pull-right'  %>
       <div>
-        <strong><%= link_to sanitize programme.title, "http://www.bbc.co.uk/programmes/#{programme.pid}" %></strong><br>
+        <strong><%= link_to sanitize(programme.title), "http://www.bbc.co.uk/programmes/#{programme.pid}" %></strong><br>
         <small><%= sanitize programme.synopsis %></small>
       </div>
     <% end %>
