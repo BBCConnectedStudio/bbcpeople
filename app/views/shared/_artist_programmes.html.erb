@@ -1,13 +1,13 @@
 <% if artist_programmes.present? %>
 
   <div class="pips-tags-data data">
-    <h3>Programmes</h3>
+    <h3>Most Played On</h3>
 
     <% artist_programmes.each do |programme| %>
       <%= image_tag programme.image, :style => 'width: 80px;', :class => 'pull-right'  %>
       <div>
-        <strong><%=sanitize programme.title %></strong><br>
-        <%= link_to "#{sanitize programme.synopsis}", "http://www.bbc.co.uk/programmes/#{programme.pid}" %>
+        <strong><%= link_to sanitize programme.title, "http://www.bbc.co.uk/programmes/#{programme.pid}" %></strong><br>
+        <small><%= sanitize programme.synopsis %></small>
       </div>
     <% end %>
   </div>

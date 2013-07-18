@@ -102,6 +102,23 @@ class Programmes
       end
     end
 
+    def fetch_artist_reviews(guid)
+      response = get("http://www.bbc.co.uk/music/artists/#{guid}.json")
+      return nil unless response.code == 200
+      json_data = JSON.parse(response.body)
+
+      json_data['artist']['reviews'].map do |json|
+        Review.new(
+          url_key:    json['url_key'],
+          reviewer:  json['reviewer'],
+          short_synopsis: json['short_synopsis'],
+          review_date: json['review_date'],
+          release_gid: json['release']['gid'],
+          release_title: json['release']['title']
+        )
+      end
+    end
+
   end
 
 end

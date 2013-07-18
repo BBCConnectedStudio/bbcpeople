@@ -1,0 +1,15 @@
+<% if reviews.present? %>
+  <div class="pips-tags-data data">
+    <h3>Latest Reviews</h3>
+
+    <% reviews.each do |review| %>
+      <%= image_tag review.image, :class => 'pull-right'  %>
+      <div>
+        <strong><%= link_to sanitize(review.release_title), "http://www.bbc.co.uk/music/reviews/#{review.url_key}" %></strong><br>
+        <strong>Reviewed by <%= sanitize review.reviewer %></strong><br>
+        <%= sanitize review.short_synopsis %>
+      </div>
+      <hr>
+    <% end %>
+  </div>
+<% end %>

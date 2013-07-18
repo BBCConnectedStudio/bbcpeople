@@ -48,8 +48,9 @@
     <%= render :partial => 'profiles/content_tabs' %>
   </div>
   <div class="span3">
-    <%= render 'shared/artist_programmes', :artist_programmes => @artist_programmes %>
+    <%= render 'shared/artist_reviews', :reviews=> @reviews %>
     <%= render 'shared/artist_tracks', :tracks=> @latest_tracks %>
+    <%= render 'shared/artist_programmes', :artist_programmes => @artist_programmes %>
   </div>
 </div>
 

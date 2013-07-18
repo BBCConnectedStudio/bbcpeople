@@ -5,8 +5,8 @@
     <% tracks.each do |track| %>
       <%= image_tag track.image, :style => 'width: 80px;', :class => 'pull-right'  %>
       <div>
-        <strong><%=sanitize track.title %></strong><br>
-        <%= link_to "#{sanitize track.subtitle}", "http://www.bbc.co.uk/programmes/#{track.pid}" %>
+        <strong><%= link_to sanitize track.title, "http://www.bbc.co.uk/programmes/#{track.pid}" %></strong><br>
+        <%= sanitize track.subtitle %>
       </div>
       <hr>
     <% end %>
