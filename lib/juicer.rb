@@ -10,7 +10,7 @@ class Juicer
     def person_by_name(name)
       name = CGI::escape(name)
 
-      response = get("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20")
+      response = get("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}")
 
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
@@ -25,7 +25,7 @@ class Juicer
     def organisation_by_name(name)
       name = CGI::escape(name)
 
-      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}&limit=20"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}"))
 
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
@@ -39,14 +39,14 @@ class Juicer
 
     # Takes an entity object and returns an array of news articles relating to that entity
     def articles_related_to(entity)
-      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=#{entity.dbpedia_uri}&limit=20"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=#{entity.dbpedia_uri}"))
 
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
       return [] unless json_data['articles']
 
-      json_data['articles'].take(20).map do |json|
+      json_data['articles'].map do |json|
         Article.new(
           cps_id:    json['cpsid'],
           headline:  json['title'],
@@ -57,7 +57,7 @@ class Juicer
     end
 
     def people_related_to(entity)
-      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Person&limit=9"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Person"))
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
@@ -77,7 +77,7 @@ class Juicer
     end
 
     def organisations_related_to(entity)
-      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Organisation&limit=9"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Organisation"))
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 
@@ -116,7 +116,7 @@ class Juicer
 
     def trending_people(after_date=nil)
       after_date = (Time.now - 1.day).strftime("%Y-%m-%d")
-      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/occurrences?type=http://dbpedia.org/ontology/Person&limit=20&after=#{after_date}"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/occurrences?type=http://dbpedia.org/ontology/Person&after=#{after_date}"))
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
 

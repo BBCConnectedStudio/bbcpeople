@@ -12,7 +12,7 @@ class Programmes
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
-      p = json_data['category_page']['available_programmes'].take(30).map do |json|
+      p = json_data['category_page']['available_programmes'].map do |json|
         programme = Programme.new(
           pid:    json['pid'],
           title:  json['display_titles']['title'],
@@ -35,7 +35,7 @@ class Programmes
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
-      p = json_data['category_page']['available_programmes'].take(30).map do |json|
+      p = json_data['category_page']['available_programmes'].map do |json|
         programme = Programme.new(
           pid:    json['pid'],
           title:  json['display_titles']['title'],
@@ -57,7 +57,7 @@ class Programmes
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
-      json_data['broadcasts'].take(20).map do |json|
+      json_data['broadcasts'].map do |json|
         Programme.new(
           pid:    json['programme']['pid'],
           title:  json['programme']['display_titles']['title'],
@@ -77,7 +77,7 @@ class Programmes
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
-      json_data['artist']['latest_segment_events'].take(20).map do |json|
+      json_data['artist']['latest_segment_events'].map do |json|
         Programme.new(
           pid:    json['episode']['pid'],
           title:  json['segment']['track_title'],
@@ -92,7 +92,7 @@ class Programmes
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
-      json_data['artist']['tleos_played_on'].take(20).map do |json|
+      json_data['artist']['tleos_played_on'].map do |json|
         Programme.new(
           pid:    json['pid'],
           title:  json['title'],

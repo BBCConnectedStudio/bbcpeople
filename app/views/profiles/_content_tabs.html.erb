@@ -9,7 +9,7 @@
         <% if @articles.nil? %>
           No relevant reading material.<br>
         <% else %>
-          <%= render :partial => 'shared/article', :collection => @articles.take(5) %>
+          <%= render :partial => 'shared/article', :collection => @articles %>
 
           <br>
           <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), read_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>

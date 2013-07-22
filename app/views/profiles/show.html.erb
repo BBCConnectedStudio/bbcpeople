@@ -32,6 +32,7 @@
 
     <% if @organisations.present? %>
     <br><br>
+    <H4>Organisations</h4>
     <div id="tag-container" class="well well-small juicer-data data" style="width: 180px;">
       <canvas width="180" height="200" id="tag-cloud">
         <% @organisations.each do |o| %>
@@ -60,7 +61,7 @@
 
 <div class="row-fluid juicer-data data">
   <ul class="thumbnails">
-    <% @people.take(4).each do |person| %>
+    <% @people.each do |person| %>
       <li class="span3">
         <div class="thumbnail">
           <%= image_tag(person.image, :alt => person.name) %>
