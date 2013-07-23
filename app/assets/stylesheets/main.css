@@ -7,12 +7,14 @@ body {
 .juicer-data.show, .juicer-key { background-color: #E09952; }
 .pips-contributions-data.show, .pips-key { background-color: #DBDB57; }
 .pips-tags-data.show, .programme-key { background-color: #CB4D4D; }
+.music-data.show, .music-key { background-color: #4DCBCB; }
 
 .source-legend { float: left; margin: 5px 0 0 10px; padding: 5px; border-radius: 2px;}
 .data { border-radius: 3px; padding: 5px; }
 
 .juicer-data.hide { display: none; }
 .pips-tags-data.hide { opacity: 0.5; }
+.music-data.hide { opacity: 0.5; }
 
 .nav label.radio { color: #ffffff; }
 

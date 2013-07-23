@@ -19,8 +19,7 @@ $(document).ready(function() {
     var action = $('input[name=mode]:checked').val();
     switch (action) {
       case 'normal':
-        $('.data').removeClass('show');
-        $('.data').removeClass('hide');
+        $('.data').removeClass('show hide');
         $('.source-legend').hide();
         break;
       case 'source':
@@ -29,7 +28,6 @@ $(document).ready(function() {
         $('.source-legend').show();
         break;
       case 'hidden':
-//        $('.data').removeClass('show');
         $('.data').addClass('hide show');
         $('.source-legend').hide();
         break;
