@@ -48,11 +48,11 @@ People::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  root :to => 'profiles#index'
+  root :to => 'meta#root'
 
-  get 'people'        => 'profiles#index'
   get 'articles/:id/related'      => 'articles#related'
   scope '/profiles' do
+    get '/'     => 'profiles#index'
     get '/:name' => 'profiles#show', :as => 'show_profile', :format => false, :constraints => {:name => /[%A-Za-z0-9()\._\-]+/}
     get '/:name/read' => 'profiles#read', :as => 'read_profile'
     get '/:name/listen/schedules' => 'profiles#radio_schedules', :as => 'radio_schedules'
@@ -63,6 +63,7 @@ People::Application.routes.draw do
     get '/:name/watch' => 'profiles#watch_all'
   end
 
+  get '/meta'              => 'meta#index'
   get '/meta/chrome'       => 'meta#chrome', :as => 'chrome'
   get '/meta/chrome-extension' => 'meta#chrome_extension', :as => 'chrome_extension'
 
