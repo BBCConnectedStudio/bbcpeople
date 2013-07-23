@@ -18,6 +18,10 @@ body {
 
 .nav label.radio { color: #ffffff; }
 
+.data-source {
+  text-align: right;
+}
+
 .footer { background-color: #1b1b1b; color: #fff; height: 50px; padding-top: 10px; }
 .popover {
   max-width: 800px;
