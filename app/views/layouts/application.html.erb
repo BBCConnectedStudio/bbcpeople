@@ -16,7 +16,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+      <div class="pull-right navbar-text">
+        <% if current_user %>
+          @<%= current_user.twitter_handle %>
+        <% else %>
+          <%= link_to "Sign in with Twitter", "/auth/twitter", :class => 'pull-right' %>
+        <% end %>
+      </div>
       <a class="brand" href="/">BBC People</a>
+
       <%= yield :extra_nav %>
      </div>
     </div>

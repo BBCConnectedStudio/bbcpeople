@@ -67,6 +67,8 @@ People::Application.routes.draw do
   get '/meta/chrome'       => 'meta#chrome', :as => 'chrome'
   get '/meta/chrome-extension' => 'meta#chrome_extension', :as => 'chrome_extension'
 
+  match "/auth/:provider/callback" => "sessions#create"
+
   # See how all your routes lay out with "rake routes"
 
   # This is a legacy wild controller route that's not recommended for RESTful applications.
