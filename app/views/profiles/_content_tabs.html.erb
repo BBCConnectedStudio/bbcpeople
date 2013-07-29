@@ -29,7 +29,7 @@
       <div class="tab-pane programme-data data" id="watch">
         <%= 'No TV programmes available.' if @tv_programmes.blank? && @upcoming_tv_programmes.blank? %>
         <% if @tv_programmes.present? %>
-          <%= render(:partial => 'shared/programme', :locals => { :programmes => @tv_programmes }) %>
+          <%= render('shared/programmes', :programmes => @tv_programmes) %>
           <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), watch_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
         <% end %>
 
