@@ -9,7 +9,9 @@ class User < ActiveRecord::Base
     end
     Twitter.friends(twitter_handle).each do |buddy|
       self.friends << Friend.create(twitter_handle: buddy.screen_name)
+      sleep(4)
     end
     self.save!
   end
+  handle_asynchronously :import_twitter_friends
 end
