@@ -1,0 +1,11 @@
+<% title("Details for user: #{@user.twitter_handle}") %>
+
+<h1><%= @user.twitter_handle %></h1>
+
+<% @user.friends.each do |friend| %>
+  <%= friend.twitter_handle %><br>
+<% end %>
+
+<p> </p>
+<p> </p>
+<p> </p>

@@ -1,0 +1,11 @@
+<% title('User List') %>
+
+<h1>Users</h1>
+
+<% @users.each do |user| %>
+  <%= link_to user.twitter_handle, user_path(user) %><br>
+<% end %>
+
+<p> </p>
+<p> </p>
+<p> </p>
