@@ -12,6 +12,8 @@ People::Application.routes.draw do
     get '/:name/watch/schedules' => 'profiles#tv_schedules', :as => 'tv_schedules'
     get '/:name/watch/player' => 'profiles#watch', :as => 'watch_profile'
     get '/:name/watch' => 'profiles#watch_all'
+    post '/:name/follow' => 'profiles#follow'
+    post '/:name/unfollow' => 'profiles#unfollow'
   end
 
   get '/meta'              => 'meta#index'
@@ -19,7 +21,8 @@ People::Application.routes.draw do
   get '/meta/chrome-extension' => 'meta#chrome_extension', :as => 'chrome_extension'
   get '/meta/:action' => 'meta#:action'
 
-  resources :users
+  resources :users do
+  end
 
   match "/auth/:provider/callback" => "sessions#create"
 end

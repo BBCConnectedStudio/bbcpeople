@@ -40,4 +40,37 @@ $(document).ready(function() {
             e.preventDefault();
   });
 
+  // following
+  $(document).on('click', '.follow', function() {
+    var dbpediaKey = $(this).attr('data-dbpedia-key');
+    if ($(this).text() == 'Follow') {
+      var action = 'follow';
+    } else {
+      var action = 'unfollow';
+    }
+    var that = this;
+    $.ajax({
+      url: '/profiles/'+dbpediaKey+'/'+action,
+      type: 'post',
+    }).done(function(response) {
+      if(response == 'set following') {
+        $(that).removeClass('btn-success').addClass('btn-info').text('Following');
+      } else if(response == 'set follow') {
+        $(that).removeClass('btn-info').addClass('btn-success').text('Follow');
+      }
+    });
+  });
+  $(document).on('mouseenter', '.follow', function() {
+    if($(this).text() == 'Following') {
+      $(this).removeClass('btn-info').addClass('btn-danger').text('Unfollow');
+    }
+  });
+  $(document).on('mouseleave', '.follow', function() {
+    if($(this).text() == 'Unfollow') {
+      $(this).removeClass('btn-danger').addClass('btn-info').text('Following');
+    }
+  });
+
+
+
 });

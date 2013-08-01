@@ -18,7 +18,7 @@
       </button>
       <div class="pull-right navbar-text">
         <% if current_user %>
-          @<%= current_user.twitter_handle %>
+          <%= link_to "@#{current_user.twitter_handle}", user_path(current_user) %>
         <% else %>
           <%= link_to "Sign in with Twitter", "/auth/twitter", :class => 'pull-right' %>
         <% end %>

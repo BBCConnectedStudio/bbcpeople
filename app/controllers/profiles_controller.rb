@@ -1,4 +1,5 @@
 class ProfilesController < ApplicationController
+  include ApplicationHelper
 
   before_filter :set_person, :except => [:index]
 
@@ -103,6 +104,23 @@ class ProfilesController < ApplicationController
      end
   end
 
+  def follow
+    return unless current_user
+    unless current_user.is_following?(@person)
+      Following.create!(user_id: current_user.id, dbpedia_key: @person.url_key)
+    end
+    render :text => 'set following'
+  end
+
+  def unfollow
+    return unless current_user
+    if current_user.is_following?(@person)
+      following = Following.where(user_id: current_user.id, dbpedia_key: @person.url_key).first
+      following.destroy
+    end
+    render :text => 'set follow'
+  end
+
   private
   def set_person
     unless params[:name].blank?
@@ -110,4 +128,5 @@ class ProfilesController < ApplicationController
       @person = ::Juicer.person_by_name(@name) || not_found
     end
   end
+
 end

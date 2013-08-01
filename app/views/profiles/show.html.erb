@@ -26,9 +26,15 @@
 <% end %>
 
 <div class="row">
-  <div class="span2">
+  <div class="span2 text-center">
     <% unless @person.image.blank? %>
       <%= image_tag(@person.image, :alt => @person.name, :class => 'juicer-data data') %>
+    <% end %>
+
+    <% if current_user && current_user.is_following?(@person) %>
+      <a href="javascript:;" class="btn btn-info follow" data-dbpedia-key="<%= @person.url_key %>">Following</a>
+    <% elsif current_user %>
+      <a href="javascript:;" class="btn btn-success follow" data-dbpedia-key="<%= @person.url_key %>">Follow</a>
     <% end %>
 
     <% if @organisations.present? %>

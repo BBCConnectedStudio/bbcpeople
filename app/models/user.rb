@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
 
   has_many :friends
+  has_many :followings
 
   def import_twitter_friends
     Twitter.configure do |config|
@@ -17,6 +18,10 @@ class User < ActiveRecord::Base
 
   def to_param
     twitter_handle
+  end
+
+  def is_following?(entity)
+    !!self.followings.where(dbpedia_key: entity.url_key).first
   end
 
 end
