@@ -2,10 +2,11 @@
 
 <h1><%= @user.twitter_handle %></h1>
 
-<% @user.friends.each do |friend| %>
-  <%= friend.twitter_handle %><br>
+<% @user.followings.each do |following| %>
+  <%= link_to "#{following.dbpedia_key.titleize}", show_profile_path(following.dbpedia_key)  %><br>
 <% end %>
 
-<p> </p>
-<p> </p>
-<p> </p>
+<p> &nbsp;</p>
+<p> &nbsp;</p>
+<p> &nbsp;</p>
+<p> &nbsp;</p>
