@@ -37,8 +37,20 @@ class Juicer
     end
 
 
-    # Takes an entity object and returns an array of news articles relating to that entity
-    def articles_related_to(entity)
+    # Returns an array of news articles relating to an entity or an array of multiple entities
+    def articles_related_to(entities)
+      if(entities.is_a? Entity)
+        articles = articles_for(entities)
+      else
+        articles = []
+        entities.each do |entity|
+          articles = articles | articles_for(entity) # set union to remove duplication
+        end
+      end
+      articles
+    end
+
+    def articles_for(entity)
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=#{entity.dbpedia_uri}"))
 
       return nil if response.body.blank? || response.code != 200
@@ -55,6 +67,7 @@ class Juicer
         )
       end
     end
+ 
 
     def people_related_to(entity)
       response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts/co-occurrences?concept=#{entity.dbpedia_uri}&type=http://dbpedia.org/ontology/Person"))

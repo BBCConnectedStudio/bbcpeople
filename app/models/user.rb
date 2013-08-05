@@ -24,4 +24,10 @@ class User < ActiveRecord::Base
     !!self.followings.where(dbpedia_key: entity.url_key).first
   end
 
+  def followings_as_entities
+    self.followings.map do |following|
+      ::Juicer.person_by_name(following.dbpedia_key)
+    end
+  end
+
 end
