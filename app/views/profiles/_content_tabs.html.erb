@@ -22,7 +22,9 @@
         <%= 'No radio programmes available.' if @radio_programmes.blank? && @upcoming_radio_programmes.blank? %>
         <% if @radio_programmes.present? %>
           <%= render :partial => 'shared/programmes', :locals => { :programmes => @radio_programmes } %>
-          <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), listen_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
+          <% if @person.present? %>
+            <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), listen_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
+          <% end %>
         <% end %>
 
         <%= render(:partial => 'shared/upcoming_programmes', :locals => { :programmes => @upcoming_radio_programmes }) if @upcoming_radio_programmes.present? %>
@@ -32,7 +34,9 @@
         <%= 'No TV programmes available.' if @tv_programmes.blank? && @upcoming_tv_programmes.blank? %>
         <% if @tv_programmes.present? %>
           <%= render('shared/programmes', :programmes => @tv_programmes) %>
-          <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), watch_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
+          <% if @person.present? %>
+            <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), watch_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
+          <% end %>
         <% end %>
 
         <%= render(:partial => 'shared/upcoming_programmes', :locals => { :programmes => @upcoming_tv_programmes }) if @upcoming_tv_programmes.present? %>

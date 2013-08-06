@@ -14,8 +14,8 @@ class ProfilesController < ApplicationController
     @people   = ::Juicer.people_related_to(@person)
     @organisations = ::Juicer.organisations_related_to(@person) || []
 
-    @tv_programmes = ::Programmes.find_tv_programmes_by_person(@person)
-    @radio_programmes = ::Programmes.find_radio_programmes_by_person(@person)
+    @tv_programmes = ::Programmes.find_programmes(@person, :tv)
+    @radio_programmes = ::Programmes.find_programmes(@person, :radio)
 
     @upcoming_tv_programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
     @upcoming_radio_programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)

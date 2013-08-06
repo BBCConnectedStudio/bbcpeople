@@ -6,50 +6,34 @@ class Programmes
 
   class << self
 
-    # Takes a person and returns a list of radio programmes relating to that person
-    def find_radio_programmes_by_person(person)
-      response = get("http://www.bbc.co.uk/programmes/topics/#{CGI::escape(person.name.gsub(' ', '_'))}.json")
-      return nil unless response.code == 200
-      json_data = JSON.parse(response.body)
-
-      p = json_data['category_page']['available_programmes'].map do |json|
-        programme = Programme.new(
-          pid:    json['pid'],
-          title:  json['display_titles']['title'],
-          subtitle: json['display_titles']['subtitle'],
-          synopsis: json['short_synopsis'],
-          type: :radio
-        )
-
-        return nil unless json['media_type'] == 'audio'
-        programme
-
+    # Returns a list of radio programmes relating to an entity or an array of entities
+    def find_programmes(entities, type)
+      programmes = []
+      if entities.is_a? Entity
+        programmes = fetch_programmes_for(entities, type)
+      else
+        entities.each do |entity|
+          programmes = programmes | (fetch_programmes_for(entity, type) || Array.new)
+        end
       end
-      p.compact!
-      p
+      programmes
     end
 
-    # Takes a person and returns a list of tv programmes relating to that person
-    def find_tv_programmes_by_person(person)
-      response = get("http://www.bbc.co.uk/programmes/topics/#{CGI::escape(person.url_key)}.json")
+    # Returns a list of programmes relating to an entity or an array of entities. The second param defines the programme type (radio|tv)
+    def fetch_programmes_for(entity, type)
+      response = get("http://www.bbc.co.uk/#{type.to_s}/programmes/topics/#{CGI::escape(entity.url_key)}.json")
       return nil unless response.code == 200
       json_data = JSON.parse(response.body)
 
-      p = json_data['category_page']['available_programmes'].map do |json|
-        programme = Programme.new(
+      json_data['category_page']['available_programmes'].map do |json|
+        Programme.new(
           pid:    json['pid'],
           title:  json['display_titles']['title'],
           subtitle: json['display_titles']['subtitle'],
           synopsis: json['short_synopsis'],
-          type: :tv
+          type: type
         )
-
-        return nil if json['media_type'] == 'audio'
-        programme
-
       end
-      p.compact!
-      p
     end
 
     def fetch_upcoming_programmes(person, type)
