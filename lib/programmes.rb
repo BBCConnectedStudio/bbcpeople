@@ -36,6 +36,18 @@ class Programmes
       end
     end
 
+    def find_upcoming_programmes(entities, type)
+      programmes = []
+      if entities.is_a? Entity
+        programmes = fetch_upcoming_programmes(entities, type)
+      else
+        entities.each do |entity|
+          programmes = programmes | (fetch_upcoming_programmes(entity, type) || Array.new)
+        end
+      end
+      programmes
+    end
+
     def fetch_upcoming_programmes(person, type)
       response = get("http://www.bbc.co.uk/#{type}/programmes/topics/#{CGI::escape(person.url_key)}/schedules/upcoming.json")
       return nil unless response.code == 200

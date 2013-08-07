@@ -18,7 +18,10 @@
 
   <br>
 
-  <% url = url_for send("#{programmes.first.type}_schedules_url", :format => :ics) %>
-  <%= link_to image_tag('calendar.png'), url,
-    :rel => 'popover', :data => { :content => "Subscribe to <pre>#{url}</pre>".html_safe, :html => 'true' } %>
+
+  <% if @person.present? %>
+    <% url = url_for send("#{programmes.first.type}_schedules_url", :name => @person.url_key, :format => :ics) %>
+    <%= link_to image_tag('calendar.png'), url,
+      :rel => 'popover', :data => { :content => "Subscribe to <pre>#{url}</pre>".html_safe, :html => 'true' } %>
+  <% end %>
 </div>

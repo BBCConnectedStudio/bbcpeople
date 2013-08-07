@@ -10,7 +10,7 @@ class UsersController < ApplicationController
     @tv_programmes = ::Programmes.find_programmes(@entities, :tv)
     @radio_programmes = ::Programmes.find_programmes(@entities, :radio)
 
-    @upcoming_radio_programmes = nil
-    @upcoming_tv_programmes = nil
+    @upcoming_radio_programmes = ::Programmes.find_upcoming_programmes(@entities, :radio)
+    @upcoming_tv_programmes = ::Programmes.find_upcoming_programmes(@entities, :tv)
   end
 end
