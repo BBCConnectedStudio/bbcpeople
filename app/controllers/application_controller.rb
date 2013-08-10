@@ -21,4 +21,10 @@ class ApplicationController < ActionController::Base
   def render_error(exception)
     render "#{Rails.root.to_s}/public/500", :status => 404
   end
+
+  def authorize_admin!
+    return render(:file => File.join(Rails.root, 'public/401.html'), :status => 401, :layout => false) unless current_user
+    return render(:file => File.join(Rails.root, 'public/403.html'), :status => 403, :layout => false) unless current_user.admin?
+    true
+  end
 end

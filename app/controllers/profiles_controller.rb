@@ -1,12 +1,28 @@
 class ProfilesController < ApplicationController
   include ApplicationHelper
 
-  before_filter :set_person, :except => [:index]
+  before_filter :set_person, :except => [:index, :edit, :update]
+  before_filter :authorize_admin!, :only => [:edit, :update]
 
   def index
    @people = ::Juicer.trending_people
    @max_score = @people.first.cooccurence_count
    @page_title = 'People'
+  end
+
+  def edit
+   @entity = Entity.find_by_xpedia_slug(params[:name]) || ::Juicer.person_by_name(params[:name])
+  end
+
+  def update
+    @entity = Entity.find_by_xpedia_slug(params[:name]) || ::Juicer.person_by_name(params[:name])
+    @entity.twitter_handle = params[:person][:twitter_handle]
+    @entity.xpedia_slug = @entity.url_key
+    if @entity.save
+      return redirect_to show_profile_path(@entity.url_key), :flash => {'success' => 'Twitter handle successfully saved.' }
+    else
+      render :edit
+    end
   end
 
   def show

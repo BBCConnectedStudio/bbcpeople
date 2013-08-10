@@ -2,7 +2,7 @@ require 'open-uri'
 
 class Entity < ActiveRecord::Base
 
-  attr_accessible :name, :description, :dbpedia_uri, :cooccurence_count, :image_uri, :xpedia_slug
+  attr_accessible :name, :description, :dbpedia_uri, :cooccurence_count, :image_uri, :xpedia_slug, :twitter_handle
 
   validates :name, :presence => true
 

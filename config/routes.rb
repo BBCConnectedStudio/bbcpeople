@@ -12,6 +12,8 @@ People::Application.routes.draw do
     get '/:name/watch/schedules' => 'profiles#tv_schedules', :as => 'tv_schedules'
     get '/:name/watch/player' => 'profiles#watch', :as => 'watch_profile'
     get '/:name/watch' => 'profiles#watch_all'
+    get '/:name/edit'     => 'profiles#edit', :as => 'edit_profile'
+    put '/:name/update'   => 'profiles#update'
     post '/:name/follow' => 'profiles#follow'
     post '/:name/unfollow' => 'profiles#unfollow'
   end

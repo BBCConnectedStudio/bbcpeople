@@ -30,4 +30,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def admin?
+    self.role == 'admin'
+  end
+
+  def xpedia_slug
+    xpedia_slug || url_key
+  end
 end

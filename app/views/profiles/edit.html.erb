@@ -1,0 +1,11 @@
+<% title("Edit #{@entity.name}") %>
+
+<h3>Editing <%= @entity.name %></h3>
+
+<div class="well">
+  <%= form_for @entity, :url => "/profiles/#{@entity.url_key}/update", :method => 'put' do |f| %>
+    <%= f.label :twitter_handle, 'Twitter Handle:' %>
+    @<%= f.text_field :twitter_handle %>
+    <%= f.submit "Save", :class => 'btn btn-success', :style => 'margin-bottom: 10px;' %>
+  <% end %>
+</div>
