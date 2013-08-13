@@ -9,8 +9,9 @@ class User < ActiveRecord::Base
       config.oauth_token_secret = secret
     end
     Twitter.friends(twitter_handle).each do |buddy|
-      self.friends << Friend.create(twitter_handle: buddy.screen_name)
-      sleep(4)
+      self.add_friend Friend.create(twitter_handle: buddy.screen_name)
+      self.follow Entity.find_by_twitter_handle(buddy.screen_name)
+      sleep(6)
     end
     self.save!
   end
@@ -37,4 +38,19 @@ class User < ActiveRecord::Base
   def xpedia_slug
     xpedia_slug || url_key
   end
+
+  def follow(entity)
+    if entity.present?
+      self.followings << Following.create(user_id: self.id, dbpedia_key: entity.url_key)
+    end
+  end
+
+  def has_friend?(friend)
+    self.friends.where(twitter_handle: friend.twitter_handle).present?
+  end
+
+  def add_friend(friend)
+    self.friends << friend unless has_friend?(friend)
+  end
+
 end
