@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  //var apiBase = 'http://localhost:3000'
-  var apiBase = 'http://csbbcpeople.herokuapp.com'
+  var apiBase = 'http://localhost:3000'
+  //var apiBase = 'http://csbbcpeople.herokuapp.com'
 
   var showRelated = function(id) {
       // get related people for this article
@@ -11,16 +11,22 @@ $(document).ready(function() {
       });
   }
 
-  var newsPattern = new RegExp('http:\/\/www.bbc.co.uk\/news\/.*-([0-9]+)');
-  var match = document.location.href.match(newsPattern);
-  // if we are on a news page
-  if (newsPattern.test(document.location.href)) {
-    showRelated(match[1]);
-  }
-  var sportPattern = new RegExp('http:\/\/www.bbc.co.uk\/sport\/0\/.*\/([0-9]+)');
-  var match = document.location.href.match(sportPattern);
-  // if we are on a sports page
-  if (sportPattern.test(document.location.href)) {
-    showRelated(match[1])
-  }
+  var routes = [
+    new RegExp('http:\/\/www.bbc.co.uk\/news\/.*-([0-9]+)'),
+    new RegExp('http:\/\/www.bbc.co.uk\/sport\/0\/.*\/([0-9]+)')
+  ];
+
+  var Router = {
+    route: function(url, handler) {
+      for(var i=0;i<routes.length;i++) {
+        if(routes[i].test(url)){
+          var match = url.match(routes[i]);
+          handler(match[1]);
+          break;
+        }
+      }
+    }
+  };
+
+  Router.route(document.location.href, showRelated);
 });
