@@ -1,0 +1,25 @@
+{
+  "manifest_version": 2,
+  "name": "BBC People",
+  "description": "Find out information about people on the BBC website.",
+  "version": "1.0",
+
+  "permissions": [
+    "http://www.bbc.co.uk/",
+    "http://localhost/",
+    "http://*/"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": ["http://www.bbc.co.uk/*"],
+      "css": ["main.css"],
+      "js": ["jquery.js", "main.js"]
+    }
+  ],
+
+  "browser_action": {
+    "default_icon": "bbc.png"
+  }
+}
+
