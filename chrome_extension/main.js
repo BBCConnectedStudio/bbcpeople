@@ -11,22 +11,35 @@ $(document).ready(function() {
       });
   }
 
-  var routes = [
-    new RegExp('http:\/\/www.bbc.co.uk\/news\/.*-([0-9]+)'),
-    new RegExp('http:\/\/www.bbc.co.uk\/sport\/0\/.*\/([0-9]+)')
-  ];
-
-  var Router = {
-    route: function(url, handler) {
+  var Router = function Router(routes) {
+    this.route = function(url, handler) {
       for(var i=0;i<routes.length;i++) {
-        if(routes[i].test(url)){
-          var match = url.match(routes[i]);
-          handler(match[1]);
+        var pattern = routes[i].pattern;
+        if(pattern.test(url)){
+          var matches = url.match(pattern);
+          matches.shift(); // remove the first match
+          routes[i].handler.apply(this, matches);
           break;
         }
       }
     }
   };
 
-  Router.route(document.location.href, showRelated);
+  var routes = [
+    {
+      pattern: new RegExp('http:\/\/www.bbc.co.uk\/news\/.*-([0-9]+)'),
+      handler: showRelated
+    },
+    {
+      pattern: new RegExp('http:\/\/www.bbc.co.uk\/sport\/0\/.*\/([0-9]+)'),
+      handler: showRelated
+    },
+    {
+      pattern: new RegExp('http:\/\/www.bbc.co.uk\/programmes\/([a-zA-Z0-9]+)'),
+      handler: showRelated
+    }
+  ];
+
+  var router = new Router(routes)
+  router.route(document.location.href);
 });
