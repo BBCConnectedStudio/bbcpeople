@@ -11,6 +11,10 @@ $(document).ready(function() {
       });
   }
 
+  var showRelatedProgrammes = function(id) {
+    alert('on programmes'); 
+  }
+
   var Router = function Router(routes) {
     this.route = function(url, handler) {
       for(var i=0;i<routes.length;i++) {
@@ -35,8 +39,8 @@ $(document).ready(function() {
       handler: showRelated
     },
     {
-      pattern: new RegExp('http:\/\/www.bbc.co.uk\/programmes\/([a-zA-Z0-9]+)'),
-      handler: showRelated
+      pattern: new RegExp('http:\/\/www.bbc.co.uk\/programmes\/([a-zA-Z0-9]+)$'),
+      handler: showRelatedProgrammes
     }
   ];
 

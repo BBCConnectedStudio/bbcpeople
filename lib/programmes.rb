@@ -115,6 +115,17 @@ class Programmes
       end
     end
 
+    def episode?(pid)
+      response = get("http://www.bbc.co.uk/programmes/#{pid}.json")
+      return false unless response.code == 200
+      json_data = JSON.parse(response.body)
+
+      begin
+        json_data['programme']['parent']['programme']['type'] == 'series'
+      rescue
+        false
+      end
+    end
   end
 
 end
