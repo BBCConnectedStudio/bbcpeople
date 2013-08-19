@@ -126,6 +126,24 @@ class Programmes
         false
       end
     end
+
+    def get_tagged_resources_for_pid(pid)
+      response = get("http://www.bbc.co.uk/programmes/#{pid}.json")
+      return false unless response.code == 200
+      json_data = JSON.parse(response.body)
+
+      dbpedia_keys = []
+      begin
+        json_data['programme']['categories'].each do |category|
+          if category['type'] == 'organisation' || category['type'] == 'person'
+            dbpedia_keys << category['sameAs'][28..-1] if category['sameAs'].present?
+          end
+        end
+      rescue
+        false
+      end
+      dbpedia_keys
+    end
   end
 
 end

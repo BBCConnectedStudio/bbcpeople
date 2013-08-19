@@ -14,6 +14,7 @@ class Programme
 
   def self.calendar(programmes)
     @calendar = Icalendar::Calendar.new
+    programmes ||= []
     programmes.each do |programme|
       event = Icalendar::Event.new
       event.start = programme.start_time.strftime("%Y%m%dT%H%M%S")

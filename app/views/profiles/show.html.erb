@@ -31,14 +31,21 @@
       <%= image_tag(@person.image, :alt => @person.name, :class => 'juicer-data data') %>
     <% end %>
 
-    <% if current_user && current_user.is_following?(@person) %>
+   <% if current_user && current_user.is_following?(@person) %>
       <a href="javascript:;" class="btn btn-info follow" data-dbpedia-key="<%= @person.url_key %>">Following</a>
     <% elsif current_user %>
       <a href="javascript:;" class="btn btn-success follow" data-dbpedia-key="<%= @person.url_key %>">Follow</a>
     <% end %>
 
+    <br> <br>
+    <% if @person.twitter_handle.present? %>
+      Twitter: <%= link_to('@'+@person.twitter_handle, "http://twitter.com/#{@person.twitter_handle}") %>
+      <br>
+    <% end %>
+
+    <br>
     <% if @organisations.present? %>
-    <br><br>
+    <br>
     <H4>Organisations</h4>
     <div id="tag-container" class="well well-small juicer-data data" style="width: 180px;">
       <canvas width="180" height="200" id="tag-cloud">
@@ -69,7 +76,8 @@
 
 <div class="row-fluid juicer-data data">
   <ul class="thumbnails">
-    <% @people.each do |person| %>
+    <% @people.each_with_index do |person, i| %>
+      <%= '</ul><ul class="thumbnails">'.html_safe if i%4 == 0 %>
       <li class="span3">
         <div class="thumbnail">
           <div class="img" style="width: 200px; height: 200px; margin-left: 30px; background-size: cover; background-image: url('<%= person.image %>');">

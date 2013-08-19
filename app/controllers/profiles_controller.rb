@@ -76,7 +76,7 @@ class ProfilesController < ApplicationController
 
   def watch_all
     @programme_type = 'tv'
-    @programmes = ::Programmes.find_tv_programmes_by_person(@person)
+    @programmes = ::Programmes.find_programmes(@person, :tv)
     @upcoming_programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
 
     render 'all_programmes'
@@ -84,7 +84,7 @@ class ProfilesController < ApplicationController
 
   def watch
     @programme_type = 'tv'
-    @programmes = ::Programmes.find_tv_programmes_by_person(@person)
+    @programmes = ::Programmes.find_programmes(@person, :tv)
 
     respond_to do |format|
       format.html { render 'programme' }
@@ -140,8 +140,11 @@ class ProfilesController < ApplicationController
   private
   def set_person
     unless params[:name].blank?
-      @name = CGI::unescape(params[:name])
-      @person = ::Juicer.person_by_name(@name) || not_found
+      @person = Entity.find_by_xpedia_slug(params[:name])
+      unless @person
+        @name = CGI::unescape(params[:name])
+        @person = ::Juicer.person_by_name(@name) || not_found
+      end
     end
   end
 
