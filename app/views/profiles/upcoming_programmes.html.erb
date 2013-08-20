@@ -1,0 +1,5 @@
+<% if @programmes.present? %>
+  <%= render 'shared/upcoming_programmes', :programmes => @programmes %>
+<% else %>
+  <p>There are no scheduled programmes available.</p>
+<% end %>

@@ -116,7 +116,7 @@ class ProfilesController < ApplicationController
          headers['Content-Type'] = "text/calendar; charset=UTF-8"
          render :text => calendar.to_ical, :layout => false
        end
-       format.html { render 'programme' }
+       format.html { render 'upcoming_programmes' }
      end
   end
 
