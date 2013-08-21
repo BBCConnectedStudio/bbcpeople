@@ -11,8 +11,15 @@ $(document).ready(function() {
       });
   }
 
-  var showRelatedProgrammes = function(id) {
-    alert('on programmes'); 
+  var showRelatedProgrammes = function(pid) {
+    console.log('on programmes');
+    // get tagged programmes for this programme
+    $.ajax({
+      url: apiBase + '/programmes/' + pid + '/related'
+    }).done(function(data){
+      console.log(data);
+      $('#content .col-a').prepend(data);
+    });
   }
 
   var Router = function Router(routes) {
@@ -39,7 +46,7 @@ $(document).ready(function() {
       handler: showRelated
     },
     {
-      pattern: new RegExp('http:\/\/www.bbc.co.uk\/programmes\/([a-zA-Z0-9]+)$'),
+      pattern: new RegExp('http:\/\/www.bbc.co.uk\/programmes\/([a-z]{1}[0-9]{1}[a-zA-Z0-9]+)$'),
       handler: showRelatedProgrammes
     }
   ];

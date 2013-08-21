@@ -121,7 +121,7 @@ class Programmes
       json_data = JSON.parse(response.body)
 
       begin
-        json_data['programme']['parent']['programme']['type'] == 'series'
+        json_data['programme']['type'] == 'episode'
       rescue
         false
       end

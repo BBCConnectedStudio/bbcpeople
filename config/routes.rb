@@ -2,6 +2,7 @@ People::Application.routes.draw do
   root :to => 'meta#root'
 
   get 'articles/:id/related'      => 'articles#related'
+  get 'programmes/:pid/related'   => 'programmes#related'
   scope '/profiles' do
     get '/'     => 'profiles#index'
     constraints :name => /[%A-Za-z0-9()\._\-,]+/ do

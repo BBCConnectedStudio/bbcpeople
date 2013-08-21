@@ -140,11 +140,7 @@ class ProfilesController < ApplicationController
   private
   def set_person
     unless params[:name].blank?
-      @person = Entity.find_by_xpedia_slug(params[:name])
-      unless @person
-        @name = CGI::unescape(params[:name])
-        @person = ::Juicer.person_by_name(@name) || not_found
-      end
+      @person = Entity.fetch_by_dbpedia_key(params[:name]) || not_found
     end
   end
 
