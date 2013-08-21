@@ -12,15 +12,23 @@ $(document).ready(function() {
   }
 
   var showRelatedProgrammes = function(pid) {
-    console.log('on programmes');
     // get tagged programmes for this programme
     $.ajax({
       url: apiBase + '/programmes/' + pid + '/related'
     }).done(function(data){
-      console.log(data);
       $('#content .col-a').prepend(data);
     });
   }
+
+  var showRelatedIplayerProgrammes = function(pid) {
+    // get tagged programmes for this programme
+    $.ajax({
+      url: apiBase + '/programmes/' + pid + '/related'
+    }).done(function(data){
+      $('#related-links').prepend(data);
+    });
+  }
+
 
   var Router = function Router(routes) {
     this.route = function(url, handler) {
@@ -48,7 +56,12 @@ $(document).ready(function() {
     {
       pattern: new RegExp('http:\/\/www.bbc.co.uk\/programmes\/([a-z]{1}[0-9]{1}[a-zA-Z0-9]+)$'),
       handler: showRelatedProgrammes
+    },
+    {
+      pattern: new RegExp('http:\/\/www.bbc.co.uk\/iplayer\/episode\/([a-z]{1}[0-9]{1}[a-zA-Z0-9]+)\/.*\/'),
+      handler: showRelatedIplayerProgrammes
     }
+ 
   ];
 
   var router = new Router(routes)
