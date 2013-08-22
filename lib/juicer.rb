@@ -45,6 +45,7 @@ class Juicer
         articles = []
         entities.each do |entity|
           articles = articles | articles_for(entity) # set union to remove duplication
+          articles.sort! { |x, y| x.published_at <=> y.published_at }.reverse!
         end
       end
       articles
