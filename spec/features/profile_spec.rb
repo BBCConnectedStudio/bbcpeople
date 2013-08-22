@@ -27,8 +27,7 @@ describe "Profiles" do
 
     describe "when the person does not exist" do
       it "shows the 404 page" do
-        visit "/profiles/this-does-not-exist"
-        expect(page).to have_content('404')
+        expect { visit "/profiles/this-does-not-exist" }.to raise_error
       end
     end
   end
@@ -37,9 +36,9 @@ describe "Profiles" do
     before do
       visit "/profiles/David_Cameron/read.rss"
     end
-    
+
     it "shows the news feed" do
-      expect(page).to have_content('BBC People - News Feed')
+      expect(page).to have_content('News feed for David Cameron')
     end
   end
 end

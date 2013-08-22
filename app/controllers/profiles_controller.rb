@@ -62,17 +62,22 @@ class ProfilesController < ApplicationController
 
   def listen
     @programme_type = 'radio'
-    @programmes = ::Programmes.find_radio_programmes_by_person(@person)
+    @programmes = ::Programmes.find_programmes(@person, :radio)
 
     respond_to do |format|
       format.html { render 'programme' }
-      format.rss { render 'profiles/programme_rss', :layout => false }
+      format.rss {
+        @title = "BBC People - #{@programme_type.titleize} Programme Feed for #{@person.name}"
+        @description = "Get all the latest #{@programme_type} programmes about #{@person.name}"
+        @link = show_profile_url(@person.url_key)
+        render 'profiles/programme_rss', :layout => false
+      }
     end
   end
 
   def listen_all
     @programme_type = 'radio'
-    @programmes = ::Programmes.find_radio_programmes_by_person(@person)
+    @programmes = ::Programmes.find_programmes(@person, :radio)
     @upcoming_programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
 
     render 'all_programmes'

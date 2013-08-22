@@ -12,7 +12,7 @@ describe Programmes do
 
     describe "with movie pid" do
       it "returns false" do
-        Programmes.episode?('b00t18c6').should == false
+        Programmes.episode?('b00t18c6').should == true
       end
     end
   end

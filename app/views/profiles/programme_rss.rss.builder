@@ -1,9 +1,9 @@
 xml.instruct! :xml, :version => "1.0" 
 xml.rss :version => "2.0" do
   xml.channel do
-    xml.title "BBC People - #{@programme_type.titleize} Programme Feed for #{@person.name}"
-    xml.description "Get all the latest #{@programme_type} programmes about #{@person.name}"
-    xml.link show_profile_url(@person.url_key)
+    xml.title @title
+    xml.description @description
+    xml.link @link
 
     unless @programmes.blank?
       for programme in @programmes

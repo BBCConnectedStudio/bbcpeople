@@ -29,6 +29,13 @@ People::Application.routes.draw do
   resources :users, :only => [:show, :index] do
     member do
       get '/read' => 'users#read', :as => 'read_user'
+      get '/listen' => 'users#listen_all', :as => 'listen_all_user'
+      get '/listen/schedules' => 'users#radio_schedules', :as => 'radio_schedules_user'
+      get '/listen/player' => 'users#listen', :as => 'listen_user'
+      get '/watch/schedules' => 'users#tv_schedules', :as => 'tv_schedules_user'
+      get '/watch/player' => 'users#watch', :as => 'watch_user'
+      get '/watch' => 'users#watch_all_user'
+ 
     end
   end
 
