@@ -51,7 +51,12 @@ class ProfilesController < ApplicationController
 
     respond_to do |format|
       format.html { render 'read' }
-      format.rss { render 'profiles/read_rss', :layout => false }
+      format.rss {
+        @title = "News feed for #{@person.name}"
+        @description = "The latest news."
+        @link = show_profile_url(@person.url_key)
+        render 'profiles/read_rss', :layout => false
+      }
     end
   end
 

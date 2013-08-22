@@ -1,7 +1,9 @@
 <% title("Details for user: #{@user.twitter_handle}") %>
 
 <h1><%= @user.twitter_handle %></h1>
+<hr>
 
+<h3>Following</h3>
 <% @user.followings.each do |following| %>
   <%= link_to "#{following.dbpedia_key.titleize}", show_profile_path(following.dbpedia_key)  %><br>
 <% end %>

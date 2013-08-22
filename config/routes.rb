@@ -26,7 +26,10 @@ People::Application.routes.draw do
   get '/meta/chrome-extension' => 'meta#chrome_extension', :as => 'chrome_extension'
   get '/meta/:action' => 'meta#:action'
 
-  resources :users do
+  resources :users, :only => [:show, :index] do
+    member do
+      get '/read' => 'users#read', :as => 'read_user'
+    end
   end
 
   match "/auth/:provider/callback" => "sessions#create"
