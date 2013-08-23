@@ -98,7 +98,12 @@ class ProfilesController < ApplicationController
 
     respond_to do |format|
       format.html { render 'programme' }
-      format.rss { render 'profiles/programme_rss', :layout => false }
+      format.rss {
+        @title = "BBC People - #{@programme_type.titleize} Programme Feed for #{@person.name}"
+        @description = "Get all the latest #{@programme_type} programmes about #{@person.name}"
+        @link = show_profile_url(@person.url_key)
+        render 'profiles/programme_rss', :layout => false
+      }
     end
   end
 

@@ -44,6 +44,7 @@ class Programmes
       else
         entities.each do |entity|
           programmes = programmes | (fetch_upcoming_programmes(entity, type) || Array.new)
+          programmes.sort! { |x, y| x.start_time <=> y.start_time }.reverse!
         end
       end
       programmes

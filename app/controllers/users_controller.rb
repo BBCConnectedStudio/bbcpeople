@@ -36,8 +36,8 @@ class UsersController < ApplicationController
     respond_to do |format|
       format.html { render 'profiles/programme' }
       format.rss {
-        @title = "News feed for #{@user.twitter_handle}"
-        @description = "The latest news."
+        @title = "Radio feed for #{@user.twitter_handle}"
+        @description = "The latest radio programmes."
         @link = user_url(@user)
         render 'profiles/programme_rss', :layout => false
       }
@@ -52,8 +52,55 @@ class UsersController < ApplicationController
     render 'profiles/all_programmes'
   end
 
-  def watch
+  def watch_all
+    @programme_type = 'tv'
+    @programmes = ::Programmes.find_programmes(@entities, :tv)
+    @upcoming_programmes = ::Programmes.find_upcoming_programmes(@entities, :tv)
 
+    render 'profiles/all_programmes'
+  end
+
+  def watch
+    @programme_type = 'tv'
+    @programmes = ::Programmes.find_programmes(@entities, :tv)
+
+    respond_to do |format|
+      format.html { render 'profiles/programme' }
+      format.rss {
+        @title = "TV feed for #{@user.twitter_handle}"
+        @description = "The latest TV programmes."
+        @link = user_url(@user)
+        render 'profiles/programme_rss', :layout => false
+      }
+    end
+  end
+
+  def radio_schedules
+    @programme_type = 'radio'
+    @programmes = ::Programmes.find_upcoming_programmes(@entities, :radio)
+    calendar = Programme.calendar(@programmes)
+
+     respond_to do |format|
+       format.ics do
+         headers['Content-Type'] = "text/calendar; charset=UTF-8"
+         render :text => calendar.to_ical, :layout => false
+       end
+       format.html { render 'profiles/programme' }
+     end
+  end
+
+  def tv_schedules
+    @programme_type = 'tv'
+    @programmes = ::Programmes.find_upcoming_programmes(@entities, :tv)
+    calendar = Programme.calendar(@programmes)
+
+     respond_to do |format|
+       format.ics do
+         headers['Content-Type'] = "text/calendar; charset=UTF-8"
+         render :text => calendar.to_ical, :layout => false
+       end
+       format.html { render 'profiles/upcoming_programmes' }
+     end
   end
 
   private

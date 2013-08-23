@@ -34,7 +34,7 @@ People::Application.routes.draw do
       get '/listen/player' => 'users#listen', :as => 'listen_user'
       get '/watch/schedules' => 'users#tv_schedules', :as => 'tv_schedules_user'
       get '/watch/player' => 'users#watch', :as => 'watch_user'
-      get '/watch' => 'users#watch_all_user'
+      get '/watch' => 'users#watch_all'
  
     end
   end

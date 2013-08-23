@@ -28,6 +28,24 @@ describe UsersController do
     end
   end
 
+  # /users/:twitter_handle/listen/schedules.ics
+  describe "GET radio_schedules" do
+    let (:user) { create_user }
+    it "works" do
+      get :radio_schedules, :id => user.twitter_handle, :format => 'ics'
+      response.should be_success
+    end
+  end
+
+  # /users/:twitter_handle/listen/schedules
+  describe "GET radio_schedules" do
+    let (:user) { create_user }
+    it "works" do
+      get :radio_schedules, :id => user.twitter_handle
+      response.should be_success
+    end
+  end
+
   # /users/:twitter_handle/listen/player
   describe "GET listen" do
     let (:user) { create_user }
@@ -54,6 +72,53 @@ describe UsersController do
       response.should be_success
     end
   end
+
+  # /users/:twitter_handle/watch/schedules.ics
+  describe "GET tv_schedules" do
+    let (:user) { create_user }
+    it "works" do
+      get :tv_schedules, :id => user.twitter_handle, :format => 'ics'
+      response.should be_success
+    end
+  end
+
+  # /users/:twitter_handle/watch/schedules
+  describe "GET tv_schedules" do
+    let (:user) { create_user }
+    it "works" do
+      get :tv_schedules, :id => user.twitter_handle
+      response.should be_success
+    end
+  end
+
+  # /users/:twitter_handle/watch
+  describe "GET watch_all" do
+    let (:user) { create_user }
+    it "works" do
+      get :watch_all, :id => user.twitter_handle
+      response.should be_success
+    end
+  end
+
+  # /users/:twitter_handle/watch/player
+  describe "GET watch" do
+    let (:user) { create_user }
+    it "works" do
+      get :watch, :id => user.twitter_handle
+      response.should be_success
+    end
+  end
+
+  # /users/:twitter_handle/watch/player.rss
+  describe "GET watch.rss" do
+    let (:user) { create_user }
+    it "works" do
+      get :watch, :id => user.twitter_handle
+      response.should be_success
+    end
+  end
+
+
 end
 
 def create_user
