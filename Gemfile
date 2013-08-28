@@ -14,6 +14,7 @@ gem 'omniauth-twitter'
 gem 'twitter'
 gem 'delayed_job_active_record'
 gem 'daemons'
+gem 'foreman'
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do
