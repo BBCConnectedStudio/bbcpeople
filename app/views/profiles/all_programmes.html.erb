@@ -1,6 +1,6 @@
-<% if @programmes.present? %>
-  <%= render 'shared/programmes', :programmes => @programmes %>
+<% if @programmes.present? || @programmes_contrib.present? %>
+  <%= render 'shared/programmes', :programmes => @programmes, :programmes_contrib => @programmes_contrib %>
 <% end %>
 <% if @upcoming_programmes.present? %>
-  <%= render 'shared/upcoming_programmes', :programmes => @upcoming_programmes %>
+  <%= render 'shared/upcoming_programmes', :programmes => @upcoming_programmes, :upcoming_programmes_contrib => @upcoming_programmes_contrib %>
 <% end %>

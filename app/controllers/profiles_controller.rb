@@ -67,6 +67,8 @@ class ProfilesController < ApplicationController
   def listen
     @programme_type = 'radio'
     @programmes = ::Programmes.find_programmes(@person, :radio)
+    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :radio)
+    @all_programmes = combine_programmes(@programmes, @programmes_contrib)
 
     respond_to do |format|
       format.html { render 'programme' }
@@ -82,7 +84,9 @@ class ProfilesController < ApplicationController
   def listen_all
     @programme_type = 'radio'
     @programmes = ::Programmes.find_programmes(@person, :radio)
+    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :radio)
     @upcoming_programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
+    @upcoming_programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@person, :radio)
 
     render 'all_programmes'
   end
@@ -91,7 +95,9 @@ class ProfilesController < ApplicationController
   def watch_all
     @programme_type = 'tv'
     @programmes = ::Programmes.find_programmes(@person, :tv)
+    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :tv)
     @upcoming_programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
+    @upcoming_programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@person, :tv)
 
     render 'all_programmes'
   end
@@ -99,6 +105,8 @@ class ProfilesController < ApplicationController
   def watch
     @programme_type = 'tv'
     @programmes = ::Programmes.find_programmes(@person, :tv)
+    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :tv)
+    @all_programmes = combine_programmes(@programmes, @programmes_contrib)
 
     respond_to do |format|
       format.html { render 'programme' }
@@ -114,7 +122,9 @@ class ProfilesController < ApplicationController
   def radio_schedules
     @programme_type = 'radio'
     @programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
-    calendar = Programme.calendar(@programmes)
+    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :radio)
+    @all_programmes = combine_programmes(@programmes, @programmes_contrib)
+    calendar = Programme.calendar(@all_programmes)
 
      respond_to do |format|
        format.ics do
@@ -128,7 +138,9 @@ class ProfilesController < ApplicationController
   def tv_schedules
     @programme_type = 'tv'
     @programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
-    calendar = Programme.calendar(@programmes)
+    @programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@person, :tv)
+    @all_programmes = combine_programmes(@programmes, @programmes_contrib)
+    calendar = Programme.calendar(@all_programmes)
 
      respond_to do |format|
        format.ics do
@@ -163,4 +175,11 @@ class ProfilesController < ApplicationController
     end
   end
 
+  def combine_programmes(a, b)
+    if a && b
+      a + b
+    else
+      a || b
+    end
+  end
 end

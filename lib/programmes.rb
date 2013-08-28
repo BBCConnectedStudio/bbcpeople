@@ -16,6 +16,7 @@ class Programmes
           programmes.sort! { |x, y| x.start_time <=> y.start_time }.reverse!
         end
       end
+      programmes.uniq! { |p| "#{p.pid}#{p.title}#{p.subtitle}" } if programmes.present?
       programmes
     end
 
@@ -78,6 +79,7 @@ class Programmes
           programmes.sort! { |x, y| x.start_time <=> y.start_time }.reverse!
         end
       end
+      programmes.uniq! { |p| "#{p.pid}#{p.title}#{p.subtitle}" } if programmes.present?
       programmes
     end
 
