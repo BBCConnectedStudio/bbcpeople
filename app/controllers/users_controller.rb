@@ -10,8 +10,10 @@ class UsersController < ApplicationController
     @articles = ::Juicer.articles_related_to(@entities)
     @tv_programmes = ::Programmes.find_programmes(@entities, :tv)
     @radio_programmes = ::Programmes.find_programmes(@entities, :radio)
+    @radio_programmes_contrib = ::Nitro.find_programmes_contrib(@entities, :radio)
 
     @upcoming_radio_programmes = ::Programmes.find_upcoming_programmes(@entities, :radio)
+    @upcoming_radio_programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@entities, :radio)
     @upcoming_tv_programmes = ::Programmes.find_upcoming_programmes(@entities, :tv)
   end
 

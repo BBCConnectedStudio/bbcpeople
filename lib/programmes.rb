@@ -2,11 +2,10 @@ require 'cgi'
 
 class Programmes
   include HTTParty
-  #http_proxy 'www-cache.reith.bbc.co.uk', 80 if Rails.env.development?
 
   class << self
 
-    # Returns a list of radio programmes relating to an entity or an array of entities
+    # Returns a list of programmes relating to an entity or an array of entities
     def find_programmes(entities, type)
       programmes = []
       if entities.is_a? Entity
@@ -35,6 +34,38 @@ class Programmes
           type: type
         )
       end
+    end
+
+    def fetch_upcoming_programme(pid)
+      response = get("http://www.bbc.co.uk/programmes/#{pid}.json")
+      return nil unless response.code == 200
+      json_data = JSON.parse(response.body)
+
+      Programme.new(
+        pid:   pid,
+        title:  json_data['programme']['display_title']['title'],
+        subtitle: json_data['programme']['display_title']['subtitle'],
+        synopsis: json_data['programme']['short_synopsis'],
+        type: (json_data['programme']['media_type'] == 'audio' ? 'radio' : 'tv'),
+        start_time: json_data['programme']['start'].to_datetime,
+        end_time: json_data['programme']['end'].to_datetime,
+        channel: json_data['programme']['service']['title'],
+        image: "http://ichef.bbci.co.uk/images/ic/256x144/legacy/episode/#{pid}.jpg?nodefault=true"
+      )
+    end
+
+    def fetch_programme(pid)
+      response = get("http://www.bbc.co.uk/programmes/#{pid}.json")
+      return nil unless response.code == 200
+      json_data = JSON.parse(response.body)
+
+      Programme.new(
+        pid:   pid,
+        title:  json_data['programme']['display_title']['title'],
+        subtitle: json_data['programme']['display_title']['subtitle'],
+        synopsis: json_data['programme']['short_synopsis'],
+        type: (json_data['programme']['media_type'] == 'audio' ? 'radio' : 'tv')
+      )
     end
 
     def find_upcoming_programmes(entities, type)
@@ -147,5 +178,4 @@ class Programmes
       dbpedia_keys
     end
   end
-
 end

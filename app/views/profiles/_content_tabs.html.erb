@@ -21,7 +21,7 @@
       <div class="tab-pane programme-data data" id="listen">
         <%= 'No radio programmes available.' if @radio_programmes.blank? && @upcoming_radio_programmes.blank? %>
         <% if @radio_programmes.present? %>
-          <%= render :partial => 'shared/programmes', :locals => { :programmes => @radio_programmes } %>
+          <%= render 'shared/programmes', :programmes => @radio_programmes, :programmes_contrib => @radio_programmes_contrib %>
           <% if @person.present? %>
             <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), listen_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
           <% end %>

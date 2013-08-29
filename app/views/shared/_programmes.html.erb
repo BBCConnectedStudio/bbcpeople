@@ -2,16 +2,40 @@
 
   <h3>iPlayer</h3>
 
-  <ul>
-    <% programmes.each do |programme| %>
-      <li>
-        <%= content_tag( 'h4', link_to( "#{sanitize programme.title} - #{sanitize programme.subtitle}", "http://www.bbc.co.uk/programmes/#{programme.pid}" ) ) %>
-        <%= content_tag( 'p', (sanitize programme.synopsis ), :class => 'synopsis' ) %>
-      </li>
-    <% end %>
-  </ul>
+    <div class="pull-right" style="width: 50%;">
+      <h4>Contributions</h4>
+      <% if defined?(programmes_contrib) && programmes_contrib.present? %>
+      <ul>
+        <% programmes_contrib.each do |programme| %>
+          <li>
+            <%= content_tag( 'h4', link_to( "#{sanitize programme.title} - #{sanitize programme.subtitle}", "http://www.bbc.co.uk/programmes/#{programme.pid}" ) ) %>
+            <%= content_tag( 'p', (sanitize programme.synopsis ), :class => 'synopsis' ) %>
+          </li>
+        <% end %>
+      </ul>
+      <% else %>
+        No programmes found.
+      <% end %>
+    </div>
+
+    <div class="pull-left" style="width: 50%;">
+      <h4>About</h4>
+      <% if programmes.present? %>
+      <ul>
+        <% programmes.each do |programme| %>
+          <li>
+            <%= content_tag( 'h4', link_to( "#{sanitize programme.title} - #{sanitize programme.subtitle}", "http://www.bbc.co.uk/programmes/#{programme.pid}" ) ) %>
+            <%= content_tag( 'p', (sanitize programme.synopsis ), :class => 'synopsis' ) %>
+          </li>
+        <% end %>
+      </ul>
+      <% else %>
+        No programmes found.
+      <% end %>
+    </div>
 
   <br>
 
+  <div class="clearfix"></div>
 </div>
 
