@@ -48,7 +48,7 @@ class Juicer
           articles.sort! { |x, y| x.published_at <=> y.published_at }.reverse!
         end
       end
-      articles
+      articles.uniq! { |article| article.headline }
     end
 
     def articles_for(entity)
