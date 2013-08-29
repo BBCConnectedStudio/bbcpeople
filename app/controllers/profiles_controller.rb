@@ -31,10 +31,14 @@ class ProfilesController < ApplicationController
     @organisations = ::Juicer.organisations_related_to(@person) || []
 
     @tv_programmes = ::Programmes.find_programmes(@person, :tv)
+    @tv_programmes_contrib = ::Nitro.find_programmes_contrib(@person, :tv)
     @radio_programmes = ::Programmes.find_programmes(@person, :radio)
+    @radio_programmes_contrib = ::Nitro.find_programmes_contrib(@person, :radio)
 
-    @upcoming_tv_programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
-    @upcoming_radio_programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
+    @upcoming_radio_programmes = ::Programmes.find_upcoming_programmes(@person, :radio)
+    @upcoming_radio_programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@person, :radio)
+    @upcoming_tv_programmes = ::Programmes.find_upcoming_programmes(@person, :tv)
+    @upcoming_tv_programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@person, :tv)
 
     artist_pid = ::MusicBrainz.fetch_guid(@person.url_key)
     @artist_programmes = ::Programmes.fetch_latest_artist_programmes(artist_pid)
