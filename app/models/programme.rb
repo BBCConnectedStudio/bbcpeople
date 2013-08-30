@@ -26,7 +26,20 @@ class Programme
     end
     @calendar.publish
     @calendar
- end
+  end
 
+  def eq?(other)
+    self == other
+  end
+
+  def ===(other)
+    self == other
+  end
+
+  def ==(other)
+    return false unless other.respond_to? :pid
+    return false unless other.respond_to? :title
+    self.pid == other.pid && self.title == other.title
+  end
 
 end

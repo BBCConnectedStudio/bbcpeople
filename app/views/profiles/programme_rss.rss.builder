@@ -5,8 +5,8 @@ xml.rss :version => "2.0" do
     xml.description @description
     xml.link @link
 
-    unless @programmes.blank?
-      for programme in @programmes
+    unless @all_programmes.blank?
+      for programme in @all_programmes
         xml.item do
           xml.title "#{programme.title} - #{programme.subtitle}"
           xml.description programme.synopsis

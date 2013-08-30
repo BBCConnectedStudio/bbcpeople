@@ -1,5 +1,5 @@
-<% if @programmes.present? %>
-  <%= render 'shared/programmes', :programmes => @programmes %>
+<% if @programmes.present? || @programmes_contrib.present? %>
+  <%= render 'shared/programmes', :programmes => @programmes, :programmes_contrib => @programmes_contrib %>
 <% else %>
   <p>There are no programmes available.</p>
 <% end %>
