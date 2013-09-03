@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130807155808) do
+ActiveRecord::Schema.define(:version => 20130904124128) do
 
   create_table "articles", :force => true do |t|
     t.string   "cps_id"
@@ -47,8 +47,10 @@ ActiveRecord::Schema.define(:version => 20130807155808) do
     t.string   "twitter_handle"
     t.string   "type"
     t.integer  "cooccurence_count", :default => 0
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "twfy_uri"
+    t.string   "parliament_uri"
   end
 
   create_table "followings", :force => true do |t|
