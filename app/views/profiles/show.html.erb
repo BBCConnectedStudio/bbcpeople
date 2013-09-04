@@ -59,7 +59,7 @@
   <div class="span7">
     <h1 class="juicer-data data"><%=h @person.name %> <%= link_to('Edit', edit_profile_path(@person.url_key), :class => 'btn btn-danger') if current_user && current_user.admin? %></h1>
     <p class="juicer-data data"><%=h @person.description %></p>
-    <div class="data-source"><small>Source: Wikipedia</small></div>
+    <div class="data-source"><small>Source: <%= link_to 'Wikipedia', "http://en.wikipedia.org/wiki/#{@person.url_key}" %></small></div>
 
     <%= render 'profiles/content_tabs' %>
   </div>
