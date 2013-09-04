@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "BBC People",
   "description": "Find out information about people on the BBC website.",
-  "version": "1.2",
+  "version": "1.3",
 
   "permissions": [
     "http://www.bbc.co.uk/",
