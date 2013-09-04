@@ -27,6 +27,8 @@ class Entity < ActiveRecord::Base
         person.image_uri = entity.image_uri
         person.type = 'Person'
         person.save
+      else
+        person = entity
       end
     end
     person
