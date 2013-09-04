@@ -7,7 +7,8 @@ class ProgrammesController < ApplicationController
       @entities = dbpedia_keys.map { |dbpedia_key| Entity.fetch_by_dbpedia_key(dbpedia_key) }.compact
     end
 
+    @entities_contrib, @contribs = Nitro.find_contributors(pid)
 
-    render 'profiles/list', :layout => false
+    render 'profiles/list_contribs', :layout => false
   end
 end

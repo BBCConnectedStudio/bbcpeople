@@ -1,0 +1,61 @@
+<% if @entities.present? || @contribs.present? || @entities_contrib.present? %>
+  <div class="component">
+    <div class="header">
+      <h2 style="background: none;">People <small>(and Organisations)</small></h2>
+    </div>
+
+    <% if @contribs.present? || @entities_contrib.present? %>
+      <div class="well">
+        <h3 style="font-size: 150%; margin-bottom: 5px;">Contributors</h3>
+        <% @entities_contrib.each do |entity| %>
+          <div style="float:left; width: 55px;">
+            <%= link_to image_tag(entity.image, :style => "width:50px; height:50px;"), show_profile_url(entity.url_key) %>
+          </div>
+          <div>
+            <h3 style="font-size: 1.3em;"><%= link_to entity.name, show_profile_url(entity.url_key), :class => 'pull-left' %></h3>
+            <div>
+              <%= truncate(entity.description, length: 120) %>
+            </div>
+          </div>
+          <div style="clear:both;"></div>
+        <% end%>
+
+        <% if @contribs.present? %>
+          <h4 style="font-size: 130%; margin-top: 10px;">Not In Juicer</h4>
+          <% @contribs.each do |entity| %>
+            <div style="margin: 5px 0;">
+              <strong><%= entity[:name] %></strong> <a href="http://en.wikipedia.org/wiki/<%= entity[:key] %>" class="wikilink">http://en.wikipedia.org/wiki/<%= entity[:key] %></a>
+              <hr>
+              <br>
+            </div>
+            <div style="clear:both;"></div>
+          <% end %>
+        <% end %>
+      </div>
+    <% end%>
+
+    <% if @entities.present? %>
+      <div class="well" style="margin-top: 20px;">
+        <h3 style="font-size: 150%; margin-bottom: 5px;">About</h3>
+        <% @entities.each do |entity| %>
+          <div style="float:left; width: 55px;">
+            <%= link_to image_tag(entity.image, :style => "width:50px; height:50px;"), show_profile_url(entity.url_key) %>
+          </div>
+          <div>
+            <h3 style="font-size: 1.3em;"><%= link_to entity.name, show_profile_url(entity.url_key), :class => 'pull-left' %></h3>
+            <div>
+              <%= truncate(entity.description, length: 120) %>
+            </div>
+          </div>
+          <div style="clear:both;"></div>
+        <% end %>
+      </div>
+    <% end %>
+
+    <div style="clear:both;"></div>
+  </div>
+  <br>
+  <hr>
+  <br>
+  <br>
+<% end %>

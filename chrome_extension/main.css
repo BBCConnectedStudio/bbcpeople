@@ -1,1 +1,4 @@
 .focus { background-color: #ff1111; }
+
+.wikilink { float: right; }
+#bip-main .wikilink { float: none; }

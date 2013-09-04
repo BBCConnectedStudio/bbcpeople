@@ -4,6 +4,33 @@ class Nitro
   include HTTParty
 
   class << self
+    def find_contributors(pid)
+      params = { programme: pid }
+      response = get(api_endpoint_for('people', params))
+      return nil unless response.code == 200
+      begin
+        xml_doc = Nokogiri::XML(response.body)
+        nodes = xml_doc.css('contributor ids id[authority=WIKIPEDIA]')
+        entities = []
+        contributors = []
+        if nodes
+          nodes.each do |node|
+            key = node.text[29..-1]
+            name = key.gsub('_', ' ')
+            entity = ::Juicer.person_by_name(key)
+            if entity
+              entities << entity
+            else
+              contributors << { name: name, key: key }
+            end
+          end
+          [entities, contributors]
+        end
+      rescue
+        nil
+      end
+    end
+
     def find_programmes_contrib(entities, type)
       programmes = []
       if entities.is_a? Entity
