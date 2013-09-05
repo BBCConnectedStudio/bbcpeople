@@ -67,7 +67,8 @@ class Nitro
       params = {
         people: contrib_pid,
         availability_entity_type: availability_type,
-        availability: 'available'
+        availability: 'available',
+        mixin: 'titles'
       }
       params['media_type'] = type == :radio ? 'audio' : 'audio_video' ;
       url = remove_brackets api_endpoint_for('programmes', params)
