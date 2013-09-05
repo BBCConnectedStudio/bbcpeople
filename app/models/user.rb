@@ -28,7 +28,7 @@ class User < ActiveRecord::Base
   def followings_as_entities
     self.followings.map do |following|
       ::Juicer.person_by_name(following.dbpedia_key)
-    end
+    end.compact
   end
 
   def admin?
