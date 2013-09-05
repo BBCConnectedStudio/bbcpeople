@@ -31,13 +31,13 @@ class Nitro
       end
     end
 
-    def find_programmes_contrib(entities, type)
+    def find_contribs(entities, type, availability_type=:episode)
       programmes = []
       if entities.is_a? Entity
-        programmes = fetch_contrib_programmes_for(entities, type)
+        programmes = fetch_contrib_programmes_for(entities, type, availability_type)
       else
         entities.each do |entity|
-          programmes = programmes | (fetch_contrib_programmes_for(entity, type) || Array.new)
+          programmes = programmes | (fetch_contrib_programmes_for(entity, type, availability_type) || Array.new)
           programmes.sort! { |x, y| x.start_time <=> y.start_time }.reverse!
         end
       end
@@ -59,22 +59,25 @@ class Nitro
 
 
     # Returns a list of programmes relating to an entity or an array of entities. The second param defines the programme type (radio|tv)
-    def fetch_contrib_programmes_for(entity, type)
+    def fetch_contrib_programmes_for(entity, type, availability_type=:episode)
       programmes = []
       pids = []
       contrib_pid = fetch_contributor_pid_for(entity.url_key)
       return nil unless contrib_pid
       params = {
         people: contrib_pid,
-        availability_entity_type: 'episode',
+        availability_entity_type: availability_type,
         availability: 'available'
       }
-      params['media_type'] = type == :radio ? 'audio' : 'video' ;
+      params['media_type'] = type == :radio ? 'audio' : 'audio_video' ;
       url = remove_brackets api_endpoint_for('programmes', params)
       response = get(url)
       return nil unless response.code == 200
       begin
         xml_doc = Nokogiri::XML(response.body)
+        if availability_type == 'clip'
+      #    debugger
+        end
         pids = extract_pids(xml_doc)
       rescue
         nil
@@ -105,7 +108,7 @@ class Nitro
         sid: sids_for(type),
         start_time: Time.zone.now.utc.iso8601
       }
-      params['media_type'] = type == :radio ? 'audio' : 'video' ;
+      params['media_type'] = type == :radio ? 'audio' : 'audio_video' ;
       url = remove_brackets api_endpoint_for('broadcasts', params)
       response = get(url)
       return nil unless response.code == 200

@@ -31,9 +31,10 @@ class ProfilesController < ApplicationController
     @organisations = ::Juicer.organisations_related_to(@person) || []
 
     @tv_programmes = ::Programmes.find_programmes(@person, :tv)
-    @tv_programmes_contrib = ::Nitro.find_programmes_contrib(@person, :tv)
+    @tv_programmes_contrib = ::Nitro.find_contribs(@person, :tv)
+    #@tv_clips_contrib = ::Nitro.find_contribs(@person, :tv, :clip)
     @radio_programmes = ::Programmes.find_programmes(@person, :radio)
-    @radio_programmes_contrib = ::Nitro.find_programmes_contrib(@person, :radio)
+    @radio_programmes_contrib = ::Nitro.find_contribs(@person, :radio)
 
     @upcoming_radio_programmes = ::Programmes.find_upcoming_programmes(@person, :radio)
     @upcoming_radio_programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@person, :radio)
@@ -67,7 +68,7 @@ class ProfilesController < ApplicationController
   def listen
     @programme_type = 'radio'
     @programmes = ::Programmes.find_programmes(@person, :radio)
-    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :radio)
+    @programmes_contrib = ::Nitro.find_contribs(@person, :radio)
     @all_programmes = combine_programmes(@programmes, @programmes_contrib)
 
     respond_to do |format|
@@ -84,7 +85,7 @@ class ProfilesController < ApplicationController
   def listen_all
     @programme_type = 'radio'
     @programmes = ::Programmes.find_programmes(@person, :radio)
-    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :radio)
+    @programmes_contrib = ::Nitro.find_contribs(@person, :radio)
     @upcoming_programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
     @upcoming_programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@person, :radio)
 
@@ -95,7 +96,7 @@ class ProfilesController < ApplicationController
   def watch_all
     @programme_type = 'tv'
     @programmes = ::Programmes.find_programmes(@person, :tv)
-    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :tv)
+    @programmes_contrib = ::Nitro.find_contribs(@person, :tv)
     @upcoming_programmes = ::Programmes.fetch_upcoming_programmes(@person, :tv)
     @upcoming_programmes_contrib = ::Nitro.find_upcoming_programmes_contrib(@person, :tv)
 
@@ -105,7 +106,7 @@ class ProfilesController < ApplicationController
   def watch
     @programme_type = 'tv'
     @programmes = ::Programmes.find_programmes(@person, :tv)
-    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :tv)
+    @programmes_contrib = ::Nitro.find_contribs(@person, :tv)
     @all_programmes = combine_programmes(@programmes, @programmes_contrib)
 
     respond_to do |format|
@@ -122,7 +123,7 @@ class ProfilesController < ApplicationController
   def radio_schedules
     @programme_type = 'radio'
     @programmes = ::Programmes.fetch_upcoming_programmes(@person, :radio)
-    @programmes_contrib = ::Nitro.find_programmes_contrib(@person, :radio)
+    @programmes_contrib = ::Nitro.find_contribs(@person, :radio)
     @all_programmes = combine_programmes(@programmes, @programmes_contrib)
     calendar = Programme.calendar(@all_programmes)
 
