@@ -1,6 +1,6 @@
 $(document).ready(function() {
-  //var apiBase = 'http://localhost:3000'
-  var apiBase = 'http://bbcpeople.pilots.bbcconnectedstudio.co.uk'
+  //var apiBase = 'http://localhost:3000';
+  var apiBase = 'http://bbcpeople.pilots.bbcconnectedstudio.co.uk';
 
   var showRelated = function(id) {
       // get related people for this article
