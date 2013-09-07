@@ -18,4 +18,9 @@ class SessionsController < ApplicationController
     flash[:notice] = "Authentication successful."
     redirect_to root_path
   end
+
+  def destroy
+    reset_session
+    redirect_to root_path
+  end
 end

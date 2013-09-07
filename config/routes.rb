@@ -35,9 +35,9 @@ People::Application.routes.draw do
       get '/watch/schedules' => 'users#tv_schedules', :as => 'tv_schedules_user'
       get '/watch/player' => 'users#watch', :as => 'watch_user'
       get '/watch' => 'users#watch_all'
- 
     end
   end
 
   match "/auth/:provider/callback" => "sessions#create"
+  get "logout" => "sessions#destroy"
 end
