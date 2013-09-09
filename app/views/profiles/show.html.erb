@@ -48,7 +48,6 @@
       <br>
       <h4>Elsewhere</h4>
       <%= link_to('They Work For You', @person.twfy_uri)+'<br>'.html_safe if @person.twfy_uri.present? %>
-      <%= link_to('Parliament', @person.parliament_uri)+'<br>'.html_safe if @person.parliament_uri.present? %>
     <% end %>
 
     <% if @organisations.present? %>
