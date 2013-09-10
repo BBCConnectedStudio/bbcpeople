@@ -1,4 +1,4 @@
-INSERT INTO `entities` (`twitter_handle`, `twfy_uri`, `parliament_uri`, `xpedia_slug`) VALUES
+INSERT INTO entities (twitter_handle, twfy_uri, parliament_uri, xpedia_slug) VALUES
 ('AdamAfriyie', 'http://www.theyworkforyou.com/mp/adam_afriyie/windsor', 'http://www.parliament.uk/biographies/commons/adam-afriyie/35516', 'Adam_Afriyie'),
 ('Adrian_Bailey', 'http://www.theyworkforyou.com/mp/adrian_bailey/west_bromwich_west', 'http://www.parliament.uk/biographies/commons/adrian-bailey/25800', 'Adrian_Bailey'),
 ('adriansandersmp', 'http://www.theyworkforyou.com/mp/adrian_sanders/torbay', 'http://www.parliament.uk/biographies/commons/adrian-sanders/25377', 'Adrian_Sanders'),
