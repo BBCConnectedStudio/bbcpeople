@@ -1,20 +1,46 @@
+require 'em-http'
+require 'em-http/middleware/oauth'
+require 'em-http/middleware/json_response'
+
 class User < ActiveRecord::Base
 
   has_many :friends
   has_many :followings
 
   def import_twitter_friends
-    Twitter.configure do |config|
-      config.oauth_token = token
-      config.oauth_token_secret = secret
+
+    oAuthConfig = {
+      :consumer_key    => ENV['TWITTER_CONSUMER_KEY'],
+      :consumer_secret => ENV['TWITTER_CONSUMER_SECRET'],
+      :token           => token,
+      :token_secret    => secret
+    }
+
+    EM.run do
+      # automatically parse the JSON response into a Ruby object
+      EventMachine::HttpRequest.use EventMachine::Middleware::JSONResponse
+
+      # sign the request with OAuth credentials
+      conn = EventMachine::HttpRequest.new('https://userstream.twitter.com/1.1/user.json')
+      conn.use EventMachine::Middleware::OAuth, oAuthConfig
+
+      http = conn.get
+      http.callback do
+        http.response['friends'].each do |friend|
+          self.add_friend Friend.create(twitter_id: friend)
+          self.follow Entity.find_by_twitter_id(friend)
+        end
+        self.save
+        EM.stop
+      end
+
+      http.errback do
+        #puts "Failed retrieving user stream."
+        EM.stop
+      end
     end
-    Twitter.friends(twitter_handle).each do |buddy|
-      self.add_friend Friend.create(twitter_handle: buddy.screen_name)
-      self.follow Entity.find_by_twitter_handle(buddy.screen_name)
-      sleep(6)
-    end
-    self.save!
   end
+
   handle_asynchronously :import_twitter_friends
 
   def to_param
@@ -27,7 +53,7 @@ class User < ActiveRecord::Base
 
   def followings_as_entities
     self.followings.map do |following|
-      ::Juicer.person_by_name(following.dbpedia_key)
+      Entity.fetch_by_dbpedia_key(following.dbpedia_key)
     end.compact
   end
 
@@ -46,7 +72,7 @@ class User < ActiveRecord::Base
   end
 
   def has_friend?(friend)
-    self.friends.where(twitter_handle: friend.twitter_handle).present?
+    self.friends.where(twitter_id: friend.twitter_id).present?
   end
 
   def add_friend(friend)

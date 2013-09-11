@@ -9,4 +9,18 @@ namespace :bbcpeople do
     puts 'Import completed.'
   end
 
+  task :twitter_id_import => :environment do
+    Twitter.configure do |config|
+      config.consumer_key = ENV['TWITTER_CONSUMER_KEY']
+      config.consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
+      config.oauth_token = '1685530021-l6mczbd1hu5hP8HSlENnMtJ1XyQ62kkNEG5ogcv'
+      config.oauth_token_secret = '8wMoNIzAGGJeph659nwasL05ZocHVPIIcS5NKE24ob8'
+    end
+    entity = Entity.where("entities.twitter_handle IS NOT NULL AND entities.twitter_id IS NULL").first
+
+    twitter_user = Twitter.user(entity.twitter_handle)
+    entity.twitter_id = twitter_user.id
+    entity.save
+    puts "Imported #{twitter_user.screen_name} - #{twitter_user.id}."
+  end
 end
