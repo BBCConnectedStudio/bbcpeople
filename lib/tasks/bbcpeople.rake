@@ -13,8 +13,8 @@ namespace :bbcpeople do
     Twitter.configure do |config|
       config.consumer_key = ENV['TWITTER_CONSUMER_KEY']
       config.consumer_secret = ENV['TWITTER_CONSUMER_SECRET']
-      config.oauth_token = '1685530021-l6mczbd1hu5hP8HSlENnMtJ1XyQ62kkNEG5ogcv'
-      config.oauth_token_secret = '8wMoNIzAGGJeph659nwasL05ZocHVPIIcS5NKE24ob8'
+      config.oauth_token = ENV['TWITTER_OAUTH_TOKEN']
+      config.oauth_token_secret = ENV['TWITTER_OAUTH_SECRET']
     end
     entity = Entity.where("entities.twitter_handle IS NOT NULL AND entities.twitter_id IS NULL").first
 
