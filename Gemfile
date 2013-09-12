@@ -16,6 +16,8 @@ gem 'delayed_job_active_record'
 gem 'daemons'
 gem 'foreman'
 gem 'eventmachine'
+gem 'em-http-request'
+gem 'yajl-ruby'
 
 # Gems used only for assets and not required in production environments by default.
 group :assets do

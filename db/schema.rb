@@ -46,12 +46,12 @@ ActiveRecord::Schema.define(:version => 20130911121212) do
     t.string   "xpedia_slug"
     t.string   "twitter_handle"
     t.string   "type"
-    t.integer  "cooccurence_count", :default => 0
+    t.integer  "cooccurence_count",              :default => 0
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "twfy_uri"
     t.string   "parliament_uri"
-    t.integer  "twitter_id"
+    t.integer  "twitter_id",        :limit => 8
   end
 
   create_table "followings", :force => true do |t|
@@ -65,10 +65,9 @@ ActiveRecord::Schema.define(:version => 20130911121212) do
 
   create_table "friends", :force => true do |t|
     t.integer  "user_id"
-    t.string   "twitter_handle", :default => "", :null => false
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
-    t.integer  "twitter_id"
+    t.datetime "created_at",              :null => false
+    t.datetime "updated_at",              :null => false
+    t.integer  "twitter_id", :limit => 8
   end
 
   create_table "programmes", :force => true do |t|
