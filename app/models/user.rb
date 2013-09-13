@@ -4,8 +4,8 @@ require 'em-http/middleware/json_response'
 
 class User < ActiveRecord::Base
 
-  has_many :friends
-  has_many :followings
+  has_many :friends, dependent: :destroy
+  has_many :followings, dependent: :destroy
 
   def import_twitter_friends
 

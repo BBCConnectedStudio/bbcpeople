@@ -6,6 +6,16 @@ class UsersController < ApplicationController
     @users = User.all
   end
 
+  def destroy
+    current_user = User.find_by_uid(session['uid']) if session['uid']
+    if current_user && current_user.admin?
+      @user.destroy
+      redirect_to users_path, :flash => { :success => 'User successfully deleted' }
+    else
+      redirect_to users_path, :flash => { :danger => 'You do not have permission to delete this user.' }
+    end
+  end
+
   def show
     @articles = ::Juicer.articles_related_to(@entities)
     @tv_programmes = ::Programmes.find_programmes(@entities, :tv)

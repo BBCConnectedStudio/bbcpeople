@@ -27,7 +27,7 @@ People::Application.routes.draw do
   get '/meta/design-notes' => 'meta#design'
   get '/meta/:action' => 'meta#:action'
 
-  resources :users, :only => [:show, :index] do
+  resources :users, :only => [:show, :index, :destroy] do
     member do
       get '/read' => 'users#read', :as => 'read_user'
       get '/listen' => 'users#listen_all', :as => 'listen_all_user'

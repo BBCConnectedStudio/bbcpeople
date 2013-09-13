@@ -3,7 +3,12 @@
 <h1>Users</h1>
 
 <% @users.each do |user| %>
-  <%= link_to user.twitter_handle, user_path(user) %><br>
+  <%= link_to user.twitter_handle, user_path(user) %>
+
+  <% if current_user && current_user.admin? %>
+    <%= link_to('Delete', user_path(user), :method => 'delete', :class => 'btn btn-danger', :confirm => 'Are you sure you want to delete this user?') unless user.admin? %>
+  <% end %>
+  <br>
 <% end %>
 
 <p> </p>
