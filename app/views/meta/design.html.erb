@@ -1,0 +1,216 @@
+		<h1>Design notes</h1>
+		<p>Frequently anticipated questions.</p>
+		
+		<h2>In general</h2>
+		
+		<h3>What is this?</h3>
+		<p>A pilot project from the <a href="http://www.bbc.co.uk/partnersandsuppliers/connectedstudio/events/uxd.html">UX&amp;D Connected Studio</a> looking at one-service navigation via the medium of people (and organisations). The project was proposed by <a href="https://twitter.com/FaithMo">Faith Mowbray</a> and <a href="http://smethur.st">Michael Smethurst</a>, championed by <a href="https://twitter.com/kai_en_ong">Kai En Ong</a> and built by <a href="https://twitter.com/forouzani">Mohammad Forouzani</a>.</p>
+		
+		<h3>What's it for?</h3>
+		<p>To explore the content the BBC has around people (and more particularly the data the BBC has to describe how that content links to people) in both production and development systems. To find out what could be built now and what would need to happen to build people navigation with appropriate coverage and at scale.</p>
+		<p>Also to look at how we might harvest attention data payed to people in BBC output outside of BBC services to improve experiences on BBC services.</p>
+		
+		<h3>Which browsers does it work on?</h3>
+		<p>There's nothing particularly complicated on the front end so it <em>should</em> work on any modern browser. But we've built and tested using Google Chrome and (rather stating the obvious) the Chrome extension only works in Chrome so best to use that.</p>
+		
+		<h3>How do I find a person / organisation?</h3>
+		<p>We haven't built any search functionality into the site. If you're interested in a particular person you'll need to hack the URI and replace the bit past /profiles/ with the Wikipedia URI slug for that person. Since not all valid Wikipedia URIs map to DBpedia URIs (see later) the best way to get the correct URI slug is to search Google, click on the Wikipedia link and copy the slug (the bit past /wiki/) from there.</p>
+		
+		<h3>What data does it use?</h3>
+		<p>The prototype takes data from: Juicer, /programmes, MusicBrainz, /music and Nitro. The 'view source' widget at the top of the page adds data source annotations.</p>
+		<p>It also uses Twitter OAuth for authentication and the Twitter streaming API to get your followees and recommend BBC output. There's an <a href="http://bbcpeople.pilots.bbcconnectedstudio.co.uk/meta/architecture">API architecture diagram here</a>.</p>
+		<p>We also have a small local database to manage users, followings and DBpedia to Twitter links. There's a <a href="http://bbcpeople.pilots.bbcconnectedstudio.co.uk/meta/schema">schema diagram here</a>.</p>
+		
+		<h3>What data / content is missing?</h3>
+		<p>We haven't yet done a full audit of all people related content across bbc.co.uk but obvious examples of missing content are live events, learning resources, recipes and programme collections curated by talent.</p>
+		
+		<h3>Where's the code?</h3>
+		<p>The code for the project is <a href="https://github.com/BBCConnectedStudio/bbcpeople">here</a>.</p>
+		
+		<h3>How stable is it?</h3>
+		<p>Not very. The programme contribution data coming from Nitro is from a supported production system. The programme topic data is from production but relies on systems which are no longer supported and data views in /programmes which will probably be removed. Music related content also relies on data views in /music which might well be removed. And Juicer is strictly a development / prototyping system.</p>
+				
+		<h3>What are the other deliverables?</h3>
+		<p>Outside of this website (and <a href="http://bbcpeople.pilots.bbcconnectedstudio.co.uk/meta/chrome">accompanying Chrome extension</a>) we're also planning to deliver a document outlining our findings and recommendations, and a poster to illustrate some of the data we don't have.</p>
+		
+		<h2>The homepage</h2>
+		
+		<h3>Why is it /profiles (and not /people)?</h3>
+		<p>Because in terms of their links to BBC output people and organisations are pretty much identical. They can both contribute to output and have output made about them. Other than some modelling of affiliation / membership there's no identifiable difference between people and groups of people.</p>
+		<p>In order to render people / organisation links at scale from "product" pages you either need to route differently from those pages or route consistently and render (slightly) differently. So far we haven't found a reason to do either.</p>
+		<p>In the past domain specific sites have bought their way out of the problem by having URIs descriptive of roles rather than people / organisations. So /music has /artists for both <a href="http://www.bbc.co.uk/music/artists/4d5447d7-c61c-4120-ba1b-d7f471d385b9">John Lennon</a> and <a href="http://www.bbc.co.uk/music/artists/b10bbbfc-cf9e-42e0-be17-e2c3e1d2600d">The Beatles</a> and /food has /chefs for both <a href="http://www.bbc.co.uk/food/chefs/delia_smith">Delia Smith</a> and the <a href="http://www.bbc.co.uk/food/chefs/hairy_bikers">Hairy Bikers</a>.</p>
+		<p>We see no real issue with having both people and organisations under /people (for want of a better label) but /profiles was chosen to make this issue explicit.</p>
+		<p>Whoever builds /people will need to consider up front what we do about organisations. The recommendation is to treat them as equivalent to people.</p>
+		
+		<h3>What's the list of people and where does it come from?</h3>
+		<p>The list of people on the homepage is taken from a "popular people" API in Juicer. It lists the 10 people Juicer thinks have been mentioned most in News Online articles over the previous 24 hours.</p>
+		
+		<h3>What is Juicer?</h3>
+		<p>Juicer is three things: automated, DBpedia-based entity extraction over all BBC CPS published articles; a triple store for the resulting data and an API. The entity extraction step is fully automated and has no human supervision. The results are good enough to prototype with but not good enough for audience facing services. For example an <a href="http://www.bbc.co.uk/news/uk-england-cambridgeshire-23179559">article about a ram raider</a> was associated with a <a href="http://bbcpeople.pilots.bbcconnectedstudio.co.uk/profiles/Kevin_Smith">Hollywood star</a> because they shared the same name. The same actor also seems to share a name with a fair few footballers.</p>
+		
+		<h3>All the news this week has been about person X but they're not in the list. Why?</h3>
+		<p>In general aggregate data (like popular people from articles) in Juicer is good but there can be negatives and false positives. Juicer seems to particularly struggle with entity extraction of royalty. In the week of the royal birth there were no articles tagged with William, Kate or George so none of those appeared on the homepage list. This <em>might</em> be because the Wikipedia / DBpedia page titles and link labels are more formal honorary titles whereas articles tend to be more colloquial. It might also be because Juicer is built on an old dump of DBpedia (3.8) and some people have changed name / been born since that dump was made.</p>
+		
+		<h3>Why is St. X on the homepage?</h3>
+		<p>Juicer entity extraction occasionally falls back to tagging with the closest equivalent of a person's given name. So if an article mentions "David Scroggins" and David Scroggins is not in Wikipedia / DBpedia the article might get tagged with St. David. If this happens often enough then St. David rises to the top of the popular people list. This finding is anecdotal based on observation of the people featured on the homepage over time. We haven't investigated how many articles are tagged with saints in Juicer.</p>
+		<p>The same false positive tagging problem also happens with organisations. (Again) anecdotally Juicer seems to have a bias toward tagging with football teams and seems to be particularly fond of Leicester City.</p>
+		
+		<h3>Does the homepage take any account of popularity in programmes?</h3>
+		<p>No. So far Nitro does not offer a popular / trending view of contributors.</p>
+		
+		<h2>Profile (people / organisation) pages</h2>
+		
+		<h3>What is the URI key?</h3>
+		<p>The URI key (the bit past /profiles) is the DBpedia 3.8 URI key as stored by Juicer.</p>
+		
+		<h3>Is using a DBpedia / Wikipedia derived URI key a good idea?</h3>
+		<p>God no. Human readable URIs are almost impossible to manage. Especially for people, where names tend to change over time (Kate Middleton to Catherine, Duchess of Cambridge). Wikipedia URIs are derived from article titles; when the title updates so does the URI. DBpedia URIs are derived from non-"redirected" Wikipedia URIs so they're inherently unstable. And different versions of DBpedia derive the URI keys in different ways so even where there's no change in Wikipedia title, DBpedia URIs can change between versions. Different BBC systems use different versions of DBpedia URIs and occasionally Wikipedia URIs. Managing the mappings is horrible and we anticipate that some data has probably fallen down the cracks.</p>
+		
+		<h3>What should you have used?</h3>
+		<p>Probably Wikidata identifiers. Which would have kept things stable on the surface. But Wikidata identifiers aren't embedded in BBC systems yet so even if we'd have done that on the surface, underneath we'd still have been querying by slightly wonky DBpedia / Wikipedia URIs.</p>
+		<p>Failing Wikidata we could have used PIPs contributor PIDs but not everyone mentioned in the news has been a programme contributor. Or we could have used LDP GUIDs but there's no real people data in the LDP <em>yet</em>.</p>
+		
+		<h3>Where do the title, description and image come from?</h3>
+		<p>Titles, descriptions and images come from Wikipedia / Wikimedia via DBpedia via Juicer. Some image links are broken <em>probably</em> because of changes in Wikipedia / Wikimedia since the creation of DBpedia 3.8.</p>
+		
+		<h3>Where does the Twitter account information come from?</h3>
+		<p>Twitter accounts for people / organisations are hard-coded in our local database. We have DBpedia &gt; Twitter mappings for UK MPs (taken from <a href="http://foafminster.heroku.com/">FoafMinster</a>) and a handful of high profile people and football teams. They're used for bootstrapping followings from Twitter followings.</p> 
+		
+		<h3>What is the organisations box?</h3>
+		<p>The organisations box is a list of organisations which commonly appear in news articles which also feature the subject of the page according to Juicer. It uses the Juicer co-occurrence API. So David Cameron is often mentioned in articles which also mention assorted political parties. We know it's a little ugly but it's in there to again make the point that organisations are a part of the people problem.</p>
+		
+		<h3>Why do some of the organisations listed seem a little random?</h3>
+		<p>Because Juicer entity extraction is fully automated with no human supervision it introduces noise and false positives into the system. As mentioned earlier Juicer seems to have a fondness for extracting football teams from articles which don't mention football teams. It also seems to tag most articles with BBC so BBC is co-occurrent with everything.</p>
+		
+		<h3>How are the related people related?</h3>
+		<p>As for the organisations box. We use the Juicer co-occurrence API scoped to people to get a list of people which Juicer says commonly appear in CPS articles with the subject of the page. Anecdotally this seems to return a more reasonable list than the organisations box.</p>
+		
+		<h3>Do the related organisations and related people panels take account of relationships via / co-occurrence in programmes?</h3>
+		<p>No. So far Nitro has no co-occurrence API for people in programmes.</p>
+		
+		<h2>The read tab</h2>
+		
+		<h3>Where do the news articles come from?</h3>
+		<p>Again from Juicer. We query juicer for articles "tagged" with the person / organisation by the automated entity extraction. Again articles get tagged if they mention a person / organisation even if that person / organisation is only mentioned in passing and is far from the primary topic of the article. And sometimes the wrong entities are extracted (Hollywood stars / common criminals) and sometimes it falls back to seeing saints.</p>
+		
+		<h3>Why are the latest news articles not listed?</h3>
+		<p>Juicer runs a couple of hours behind time so recently published articles will not have been entity extracted / tagged by juicer.</p>
+		
+		<h2>The watch and listen tabs</h2>
+		
+		<h3>What does iPlayer mean?</h3>
+		<p>It means <em>all</em> episodes in PIPs which are available ondemand. It does not correspond to the current implementation of iPlayer discoverability which is restricted to catch-up. iPlayer here also includes episodes with "archive availability".</p>
+		
+		<h3>What does available mean?</h3>
+		<p>Available on a PC in the UK. We haven't considered mobile / tablet / download / connected TV because it all gets too complex. And we haven't considered availability or what would happen to these pages outside the UK. Obviously large chunks would go missing (the watch tab).</p>
+		
+		<h3>Where do programmes listed under "about" come from?</h3>
+		<p>We query /programmes JSON views on tag (topic) pages directly to get episodes "tagged" with the person / organisation.</p>
+		
+		<h3>There's a programme about person X on tonight. Why isn't it listed here?</h3>
+		<p>The tagging tools / workflow / dataflow for programme tagging is no longer supported, falling apart and rarely used. The team which used to tag TV programmes no longer exists. Radio still use the tagging tool to tag occasional episodes for specific purposes. For example, episodes featuring the BBC Symphony Orchestra are tagged with that organisation and the tagging data from PIPs / Dynamite is used to drive the BBC Orchestras section of bbc.co.uk. But, in the main, radio episodes are not tagged either. Where episodes do appear under the Upcoming &gt; About headings these are almost always episodes which were tagged on first broadcast several years ago and are now scheduled for repeat broadcast. Where episodes appear under the iPlayer &gt; About headings these are almost always episodes which were tagged on first broadcast several years ago, have recently been repeated and are now available for catch-up again. In short about / PIPs tagging data is patchy to non-existent.</p>
+		
+		<h3>Where do programmes listed under "contributions" come from?</h3>
+		<p>From PIPs contributors via Nitro. We query Nitro with a person / organisation Wikipedia URI and, if that Wikipedia URI is stored as an external ID on a PIPs contributor, get back the contributor PID. We then query Nitro for upcoming TV broadcasts, upcoming radio broadcasts, ondemand available TV episodes and ondemand available radio episodes with that contributor PID. We also query Nitro for a list of TV services and a list of radio services to get the upcoming broadcast listings.</p>
+		
+		<h3>Why do some programmes appear in both the "about" and "contributions" columns?</h3>
+		<p>When programme tagging was first rolled out, the people doing the tagging where explicitly told <em>not</em> to tag with programme contributors unless the programme was specifically about that person. (An example of the outlier case might be the David Cameron episode of Desert Island Discs where David Cameron was both a contributing guest and the subject of the programme.) The intention was to use tags to describe the primary topics of programmes and the contribution / contributor model to describe contributions. Unfortunately the contributor model and data flow took so long to land that people started to use tags as a workaround to build contributor based navigation. Programmes tagged in the past as a workaround and recently scheduled for rebroadcast have now had the contribution / contributor model applied with Wikipedia URIs on the contributor so those episodes appear under both About and Contributions. To de-dupe the appearance we need to de-dupe the data.</p>
+		
+		<h3>I know there's a programme featuring person X on tonight / available on iPlayer. Why isn't it here?</h3>
+		<p>So many possible reasons...</p>
+		<p>If it's a radio drama programme it should be here. Red Bee are contracted to extrude the credits data for radio dramas into the contributions model and add external IDs. If it's a radio programme that isn't a drama it won't be here. Red Bee are <em>not</em> contracted to provide contribution data for any radio which isn't drama.</p>
+		<p>If it's a TV programme and the person / organisation was a <em>credited contributor</em> (in the onscreen credits) then it should be here. If they were an uncredited contributor (a guest on a chat show, an MP on Newsnight, a football manager on Match of the Day, a football team on Match of the Day) it won't be here. Details of uncredited contributors are not passed through from TV production to Red Bee so no data exists in PIPs.</p>
+		<p>...and (this bit gets icky)...</p>
+		<p>Red Bee are contracted to add Wikipedia URIs to contributors where they exist. In almost all ways Wikipedia URI design is probably best described as shambolic. Articles in Wikipedia can have more than one URI. Internally these are managed as "redirects" but not redirects in the HTTP sense. So multiple URIs can resolve to the same article content.</p>
+		<p>An example: Phill Jupitus has two L's in Phill. In PIPs his given name is Phil (one L). (This might be a typo that originated in TV billings or in Red Bee.) Unfortunately his Wikipedia URI in PIPs also has one L. This is a valid Wikipedia URI and returns the same content as the Wikipedia URI with two L's. When DBpedia builds out of Wikipedia it takes account of Wikipedia "redirects" and only builds URIs for non-"redirected" resources. So two L's Phill is a valid DBpedia URI and is the URI in Juicer; one L Phil is not. We ask Nitro for the PID of the contributor whose Wikipedia URI is two L's Phill (as in Juicer) and PIPs / Nitro has no record. (This is also the David_Beckham / David_beckham problem.)</p>
+		<p>I'm assuming that Red Bee have a short-cut to generate likely Wikipedia URIs from contributor names, check these and, if they resolve, add them to the contributor record. But if the contributor name has a typo and the typo version is a "redirect" on Wikipedia then the Wikipedia URI added is valid but not very valid...</p>
+		<p>(For the record the safest way to get the "correct" (un-"redirected") Wikipedia URI is to trust Google and head for the top link. Never try to get un-"redirected" / canonical Wikipedia URIs by hacking the URL bar.)</p>
+		<p>Hopefully, one day Wikidata will solve all these things.</p>
+		
+		<h3>Why no clips?</h3>
+		<p>In theory pulling in ondemand available clips for a given contributor is as easy as pulling in episodes. Everything is in place to allow for contributor data on clips, from contributor assignment in iBroadcast, data model in PIPs and API in Nitro. Until there's a larger set of contributors in PIPs, production are discouraged from assigning contributors to clips to avoid duplication with Red Bee contributor creation.</p>
+		
+		<h3>Person X is a regular contributor to programme Y. Why is there no obvious link to or from the brand / TLEO page of that programme?</h3>
+		<p>E.g. Jeremy Clarkson to Top Gear, Jeremy Paxman to Newsnight, John Humphrys to Today, Bruce Forsyth to Strictly. PIPs modelling allows for contributors at every level of the programme hierarchy (brand, series, episode, clip, version, segment) but is only populated by Red Bee at episode level. Populating at brand and series level is thought to need editorial intervention but since there's never been a need, the tools (iBroadcast) don't currently allow for that. We could theoretically extrude upwards from episodes to get regular contributors (as Andrew McParland did for Infax) but currently there's no easy way to do that.</p>
+		
+		
+		<h2>Music content</h2>
+		
+		<h3>Where does the music content (right hand column) come from?</h3>
+		<p>Music content / links comes from /music. We query MusicBrainz with a Wikipedia URI (derived from the Juicer DBpedia URI) and get back a MusicBrainz GUID where one exists. We then query /music (and a couple of music related URIs inside /programmes) with the MusicBrainz GUID to get links to music content (reviews, latest tracks, most played on).</p>
+		
+		<h3>Why does Shakespeare / Dickens / Stephen Fry / someone unexpected have music links?</h3>
+		<p>Mostly from Desert Island Discs but sometimes from other programmes. Occasionally a guest on Desert Island Discs chooses an audio book as a "track" and these are entered in the usual way as tracklist items. MusicBrainz coverage is not limited to music but also has audio books so the match is made to the "artist" and they get treated like any other "music artist".</p>
+			
+		<h2>The Chrome extension</h2>
+		
+		<h3>Where do I get the Chrome extension?</h3>
+		<p>Go to <a href="http://bbcpeople.pilots.bbcconnectedstudio.co.uk/meta/chrome-extension">/meta/chrome-extension</a> and follow the instructions.</p>
+		
+		<h3>What does the Chrome extension do?</h3>
+		<p>Two things:</p>
+		<ol>
+			<li>If you're on a CPS published article page (news, sport etc) it queries Juicer with the article URI and gets back all entities / tags for that article of type person or organisation. It then makes a link to the appropriate profile page. As ever the people / organisations shown might only be mentioned in passing, might be false positive matches or... might be saints.</li>
+			<li>
+				<p>On a /programmes episode page or iPlayer item page it:</p>
+				<ol>
+					<li>queries /programmes to get tags of type person or organisation and adds links to appropriate profile pages under an "About" heading</li>
+					<li>queries Nitro with the PID of the episode to get contributors with Wikipedia URIs, checks those Wikipedia URIs map to DBpedia URIs in Juicer and adds links to profile pages if they do and links to Wikipedia if they don't (see next).</li>
+				</ol>
+			</li>
+		</ol>
+		
+		<h3>I've clicked on an article link from the news homepage and the Chrome extension doesn't seem to work. Why?</h3>
+		<p>Juicer entity extraction runs approximately two hours behind publication. So recently published articles will not have tags and the Chrome extension will not work. It should work on older articles.</p>
+		
+		<h3>On programme pages why are some people / organisations listed under "not in Juicer"? Why do they not have links?</h3>
+		<p>For the same reason as above. They have Wikipedia URIs which are valid but not valid DBpedia URIs so don't match to Juicer. We thought it best to expose these and hope they'll be useful in fixing wonky PIPs Wikipedia URIs.</p>
+		
+		<h2>Signing in</h2>
+		
+		<h3>How do I sign in?</h3>
+		<p>At the top right of every page there's a "Sign in with Twitter link". Make sure you're signed into Twitter in your browser, click the link, do the OAuth dance and you're signed in.</p>
+		
+		<h3>Why can I only sign in with Twitter?</h3>
+		<p>Because adding lots of different ways to authenticate would have complicated things and wasn't worth doing for the pilot. Also because we wanted to prototype some basic data portability and the idea of importing your Twitter followees to bootstrap your BBC followees and recommend some content off the back of attention data payed elsewhere.</p>
+		
+		<h3>Why would I sign in?</h3>
+		<p>Once you're signed in you can browse the site and follow people / organisations you're interested in. A link at the top right of the page takes you to your user page which aggregates all news articles, upcoming TV broadcasts, upcoming radio broadcasts, iPlayer available TV episodes and iPlayer available radio episodes featuring / about all the people / organisations you're following.</p>
+		
+		<h3>Why is my user page slow / timing out?</h3>
+		<p>Because we're making <em>lots</em> of API calls. And sometimes we run out of internet.</p>
+		<p>The code could probably be speeded up by making it less objecty, using multi-curl etc but it's (mostly) good enough for a demo.</p>
+		
+		<h2>Bootstrapping BBC People followees from Twitter followees</h2>
+		
+		<h3>What happens when I first sign in?</h3>
+		<p>Behind the scenes we have some hard-coded DBpedia &gt; Twitter mappings. This started as DBpedia URIs mapped to Twitter handles. When you first authenticated we used the Twitter REST API to get a list of your Twitter followees and populate your BBC People followees with the intersection of Twitter followees and Twitter handles we knew about. Unfortunately Twitter's rate limits made this mapping difficult. We had to pause for six seconds between checking each Twitter followee. If you followed lots of people this could take a while.</p>
+		<p>So we changed to storing Twitter handles and Twitter IDs. Admin users can enter the Twitter handle of a DBpedia URI and an offline script queries the Twitter REST API to get the ID for that handle. On first authentication we then use the Twitter streaming API which returns a list of followee IDs which we check against our local database. If a Twitter followee ID matches a local Twitter ID we create a BBC People following.</p>
+		
+		<h3>I don't use Twitter; how can I see this?</h3>
+		<p>We've created a test Twitter account. The username is Luth3rBliss3t; the password is only4me2c. Sign into that in your browser and authenticate to that in the BBC people app and it should work. Mostly.</p>
+		
+		<h3>Who is Luther Blisset?</h3>
+		<p>Just some guy.</p>
+		
+		<h3>I do use Twitter but I only follow geeks and not "celebrities"; how can I see this?</h3>
+		<p>It's best to test with the Luth3rBliss3t account which has an assortment of celebrity followees.</p>
+		
+		<h3>I do use Twitter and follow lots of "celebrities" but my user page doesn't show this and I get no recommended content. Why is this?</h4>
+		<p>There are lots of places where the Twitter followees &gt; BBC output links might get borken: incorrect entity extraction in Juicer, lack of tags in PIPs, lack of contributor data in PIPS, "incorrect" Wikipedia URIs on PIPs contributors etc. Mainly the breaks occur because we only have a very small set of Twitter &gt; DBpedia links (UK MPs + some hand "curated" examples).</p>
+		<p>Linked Data "cloud" to social media "cloud" mapping is a generally unsolved problem. We (R&amp;D) have a potential collaborative project to look at fixing this but, for the pilot, mappings are hard-coded.</p>
+		<p>Again it's best to use the Luth3rBliss3t Twitter account to test with.</p>
+		
+		<h3>Could you push recommendations out to social media platforms?</h3>
+		<p>Yes. Once you have the user's BBC ID to social media account mappings and the "celebrity's" social media to DBpedia mappings the rest is just processing and piping. It's as easy to to push out recommendations as to pull in followees.</p>
+		
+		<h3>Would a similar approach work for bootstrapping programme followings with programme accounts followed elsewhere?</h3>
+		<p>Yes. If we had mappings between social media accounts and /programmes URIs (PIDs) we could check your external followings and replicate them internally. Currently we don't have those mappings. <a href="bbc-social.herokuapp.com">BBC Social</a> was an attempt to capture them but so far hasn't been populated.</p>
+		
+		<h2>Finally</h2>
+		
+		<h3>Who you you like to thank?</h3>
+		<p>Massive thanks to <a href="https://twitter.com/bonaldi">Allan Donald</a> for quick and helpful answers to Nitro questions. And to <a href="http://www.bbc.co.uk/rd/people/matt-haynes">Matt Haynes</a> for questions about Juicer.</p>
+		<p>Also to <a href="http://www.bbc.co.uk/blogs/blogbbcinternet/authors/Mike_Brown">Mike Brown</a> and <a href="http://neva.li/">Mo McRoberts</a> for help with the server set-up. And various <a href="https://twitter.com/bbcirfs">IRFS</a> people for assorted conversations.</p>
+		<p>Finally <a href="http://www.bbc.co.uk/partnersandsuppliers/connectedstudio/">BBC Connected Studio</a> for giving us the space to experiment.</p>
+		

@@ -19,4 +19,7 @@ class MetaController < ApplicationController
 
   def architecture
   end
+
+  def design
+  end
 end

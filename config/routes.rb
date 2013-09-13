@@ -24,6 +24,7 @@ People::Application.routes.draw do
   get '/meta'              => 'meta#index'
   get '/meta/chrome'       => 'meta#chrome', :as => 'chrome'
   get '/meta/chrome-extension' => 'meta#chrome_extension', :as => 'chrome_extension'
+  get '/meta/design-notes' => 'meta#design'
   get '/meta/:action' => 'meta#:action'
 
   resources :users, :only => [:show, :index] do
