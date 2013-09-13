@@ -36,12 +36,14 @@ class UsersController < ApplicationController
   def listen
     @programme_type = 'radio'
     @programmes = ::Programmes.find_programmes(@entities, :radio)
+    @programmes_contrib = ::Nitro.find_contribs(@entities, :radio)
+    @all_programmes = combine_programmes(@programmes, @programmes_contrib)
 
     respond_to do |format|
       format.html { render 'profiles/programme' }
       format.rss {
-        @title = "Radio feed for #{@user.twitter_handle}"
-        @description = "The latest radio programmes."
+        @title = "BBC People - #{@programme_type.titleize} Programme Feed for #{@user.twitter_handle}"
+        @description = "Get all the latest #{@programme_type} programmes for #{@user.twitter_handle}"
         @link = user_url(@user)
         render 'profiles/programme_rss', :layout => false
       }

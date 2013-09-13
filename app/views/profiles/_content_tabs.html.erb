@@ -14,6 +14,8 @@
           <br>
           <% if @person.present? %>
             <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), read_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
+          <% else %>
+            <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), read_user_user_path(@user.twitter_handle, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
           <% end %>
         <% end %>
       </div>
@@ -24,6 +26,8 @@
           <%= render 'shared/programmes', :programmes => @radio_programmes, :programmes_contrib => @radio_programmes_contrib %>
           <% if @person.present? %>
             <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), listen_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
+          <% else %>
+            <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), listen_user_user_path(@user.twitter_handle, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
           <% end %>
         <% end %>
 
@@ -36,6 +40,8 @@
           <%= render('shared/programmes', :programmes => @tv_programmes, :programmes_contrib => @tv_programmes_contrib) %>
           <% if @person.present? %>
             <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), watch_profile_path(@person.url_key, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
+          <% else %>
+            <p><%= link_to image_tag('rss.jpg', :alt => 'Subscribe via RSS'), watch_user_user_path(@user.twitter_handle, :format => 'rss'), :title => 'Subscribe via RSS' %></p>
           <% end %>
         <% end %>
 
