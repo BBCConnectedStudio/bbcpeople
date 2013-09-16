@@ -1,6 +1,6 @@
 class Friend < ActiveRecord::Base
 
-  attr_accessible :twitter_handle, :twitter_id
+  attr_accessible :twitter_id
 
   belongs_to :user
 
