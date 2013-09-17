@@ -17,10 +17,10 @@ namespace :bbcpeople do
       config.oauth_token_secret = ENV['TWITTER_OAUTH_SECRET']
     end
     entity = Entity.where("entities.twitter_handle IS NOT NULL AND entities.twitter_id IS NULL").first
-
+    entity = Entity.fetch_by_dbpedia_key(entity.xpedia_slug)
     twitter_user = Twitter.user(entity.twitter_handle)
     entity.twitter_id = twitter_user.id
-    entity.save
+    entity.save!
     puts "Imported #{twitter_user.screen_name} - #{twitter_user.id}."
   end
 end
