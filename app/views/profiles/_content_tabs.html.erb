@@ -20,7 +20,7 @@
         <% end %>
       </div>
 
-      <div class="tab-pane programme-data data" id="listen">
+      <div class="tab-pane" id="listen">
         <%= 'No radio programmes available.' if @radio_programmes.blank? && @upcoming_radio_programmes.blank? %>
         <% if @radio_programmes.present? %>
           <%= render 'shared/programmes', :programmes => @radio_programmes, :programmes_contrib => @radio_programmes_contrib %>
@@ -34,7 +34,7 @@
         <%= render(:partial => 'shared/upcoming_programmes', :locals => { :programmes => @upcoming_radio_programmes }) if @upcoming_radio_programmes.present? %>
       </div>
 
-      <div class="tab-pane programme-data data" id="watch">
+      <div class="tab-pane" id="watch">
         <%= 'No TV programmes available.' if @tv_programmes.blank? && @upcoming_tv_programmes.blank? %>
         <% if @tv_programmes.present? %>
           <%= render('shared/programmes', :programmes => @tv_programmes, :programmes_contrib => @tv_programmes_contrib) %>
