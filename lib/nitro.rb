@@ -68,6 +68,7 @@ class Nitro
         people: contrib_pid,
         availability_entity_type: availability_type,
         availability: 'available',
+        media_set: 'pc',
         mixin: 'titles'
       }
       params['media_type'] = type == :radio ? 'audio' : 'audio_video' ;
