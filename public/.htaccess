@@ -1,7 +1,7 @@
 RewriteEngine On
 
 RewriteCond %{REQUEST_URI} !^/maintenance.html$
-RewriteCond %{DOCUMENT_ROOT}/maintenance.txt -f
+RewriteCond %{DOCUMENT_ROOT}/../maintenance.txt -f
 RewriteCond %{DOCUMENT_ROOT}/%{REQUEST_FILENAME} !-f
 # Set 503 status for all requests
 RewriteRule ^(.*)$ /maintenance.html [NC,R=503,L]
