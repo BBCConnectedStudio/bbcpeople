@@ -10,7 +10,7 @@ class Juicer
     def person_by_name(name)
       name = CGI::escape(name)
 
-      response = get("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}")
+      response = get("http://triplestore.bbcnewslabs.co.uk/api/concepts?product=http://www.bbc.co.uk/ontologies/bbc/NewsWeb&uri=http://dbpedia.org/resource/#{name}")
 
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
@@ -25,7 +25,7 @@ class Juicer
     def organisation_by_name(name)
       name = CGI::escape(name)
 
-      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=http://dbpedia.org/resource/#{name}"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?product=http://www.bbc.co.uk/ontologies/bbc/NewsWeb&uri=http://dbpedia.org/resource/#{name}"))
 
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
@@ -53,7 +53,7 @@ class Juicer
     end
 
     def articles_for(entity)
-      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?uri=#{entity.dbpedia_uri}"))
+      response = get(URI.encode("http://triplestore.bbcnewslabs.co.uk/api/concepts?product=http://www.bbc.co.uk/ontologies/bbc/NewsWeb&uri=#{entity.dbpedia_uri}"))
 
       return nil if response.body.blank? || response.code != 200
       json_data = JSON.parse(response.body)
