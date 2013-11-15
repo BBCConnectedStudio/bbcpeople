@@ -63,7 +63,7 @@ class Nitro
       programmes = []
       pids = []
       contrib_pid = fetch_contributor_pid_for(entity.url_key)
-      return nil unless contrib_pid
+      return nil unless contrib_pid.present?
       params = {
         people: contrib_pid,
         availability_entity_type: availability_type,
@@ -104,7 +104,7 @@ class Nitro
       programmes = []
       pids = []
       contrib_pid = fetch_contributor_pid_for(entity.url_key)
-      return nil unless contrib_pid
+      return nil unless contrib_pid.present?
       params = {
         people: contrib_pid,
         sid: sids_for(type),
