@@ -38,8 +38,8 @@ group :test do
   gem 'sqlite3'
   gem 'rspec-rails'
   gem 'rb-readline'
-  gem 'rb-inotify', '~> 0.9', :require => false
-  gem 'guard-rspec'
+  gem 'rb-inotify', '~> 0.9', '>= 0.9.1', :require => false
+  gem 'guard-rspec', '>= 3.0.2'
   gem 'term-ansicolor'
   gem 'capybara'
   gem 'machinist', '>= 2.0.0.beta2'
